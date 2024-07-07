@@ -2,7 +2,22 @@ import React, { useState } from 'react';
 import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
 import { tournaments } from '../components/TournamentData'; // Import the tournament data
 
-function BookingTournamentPage({ onSubmit }) {
+function generateHalfHourOptions() {
+    let options = [];
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+            const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+            options.push(
+                <option key={time} value={time}>
+                    {time}
+                </option>
+            );
+        }
+    }
+    return options;
+}
+
+const BookingTournamentPage = () => {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -11,12 +26,15 @@ function BookingTournamentPage({ onSubmit }) {
         email: '',
         phoneNumber: '',
         tournamentName: tournaments.length > 0 ? tournaments[0].name : '',
-        teeTime: '',
+        requireEquipment: 'no',
         equipment: {
             golfClubs: false,
             tees: false,
             balls: false,
-        }
+        },
+        startDate: '', // Updated field for date input
+        startTime: '', // Updated field for start time input
+        selectedDay: '', // New field to store the selected day of the week
     });
 
     const handleChange = (e) => {
@@ -35,13 +53,40 @@ function BookingTournamentPage({ onSubmit }) {
                 ...prevData,
                 [name]: value,
             }));
+
+            if (name === 'startDate') {
+                const selectedDate = new Date(value);
+                selectedDate.setUTCHours(12); // Ensure date is set to noon UTC to avoid timezone issues
+                const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+                setFormData(prevData => ({ ...prevData, selectedDay }));
+            }
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const bookingData = {
+            id: new Date().getTime(), // Unique ID for the booking
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            tournamentName: formData.tournamentName,
+            requireEquipment: formData.requireEquipment,
+            equipment: { ...formData.equipment },
+            startDate: formData.startDate,
+            startTime: formData.startTime,
+            selectedDay: formData.selectedDay,
+        };
+
+        const userBookings = JSON.parse(localStorage.getItem('userBookings')) || {};
+        const updatedBookings = {
+            ...userBookings,
+            [bookingData.id]: bookingData,
+        };
+        localStorage.setItem('userBookings', JSON.stringify(updatedBookings));
+
         setSubmitted(true);
-        onSubmit(formData); // Call onSubmit with the form data
     };
 
     const handleNext = () => {
@@ -120,7 +165,42 @@ function BookingTournamentPage({ onSubmit }) {
                                         />
                                     </Col>
                                 </Row>
-
+                                <Row className="mt-2">
+                                    <Col sm={6}>
+                                        <Form.Label>Date</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            name="startDate"
+                                            value={formData.startDate}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col sm={6}>
+                                        <Form.Label>Start Time</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            name="startTime"
+                                            value={formData.startTime}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="">Select Time</option>
+                                            {generateHalfHourOptions()}
+                                        </Form.Control>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col sm={12}>
+                                        <Form.Label>Selected Day</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="selectedDay"
+                                            value={formData.selectedDay}
+                                            readOnly
+                                        />
+                                    </Col>
+                                </Row>
                             </Form.Group>
                             <Button variant="primary mt-2" onClick={handleNext}>
                                 Next
@@ -187,6 +267,6 @@ function BookingTournamentPage({ onSubmit }) {
             )}
         </Container>
     );
-}
+};
 
 export default BookingTournamentPage;
