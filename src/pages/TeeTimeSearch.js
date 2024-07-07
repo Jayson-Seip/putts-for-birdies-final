@@ -4,7 +4,7 @@ import './TournamentSearch.css'; // Assuming you have custom CSS for styling
 import TeeTimeBook from './TeeTimeBook';
 import { golfCourses } from '../components/GolfTeeTimeData'; // Assuming you have imported teeTimes data
 
-const TeeTimeTypes = ['9 Hole', '18 Hole', 'Championship']; // Different types of tee-times available
+const TeeTimeTypes = ['9 Hole Course', '18 Hole Course', 'Championship Course']; // Different types of tee-times available
 
 function TeeTimeSearch() {
     const [selectedTypes, setSelectedTypes] = useState([]);
@@ -48,7 +48,7 @@ function TeeTimeSearch() {
         const itemTime = new Date(`1970-01-01T${item.time}:00`);
 
         return (
-            (selectedTypes.length === 0 || selectedTypes.includes(item.type)) &&
+            (selectedTypes.length === 0 || selectedTypes.includes(item.name)) &&
             (selectedDate === '' || item.date === selectedDate) &&
             (selectedEarlyTime === '' || itemTime >= earlyTime) &&
             (selectedLatestTime === '' || itemTime <= latestTime) &&
@@ -67,20 +67,21 @@ function TeeTimeSearch() {
 
     return (
         <Container>
-            <h1>Search for Tee Times</h1>
+            <Container className="text-header mt-3"><h1>Search for Tee Times</h1></Container>
+
             <Form>
                 <Row className="mt-4">
                     <Col md={2} className="faceted-search border">
                         <Form.Label className="title">Tee Time Types</Form.Label>
                         <Container>
-                            {TeeTimeTypes.map((type, index) => (
+                            {TeeTimeTypes.map((name, index) => (
                                 <Form.Check
                                     key={index}
                                     type="checkbox"
-                                    label={type}
+                                    label={name}
                                     className="faceted"
-                                    onChange={() => handleTypeChange(type)}
-                                    checked={selectedTypes.includes(type)}
+                                    onChange={() => handleTypeChange(name)}
+                                    checked={selectedTypes.includes(name)}
                                 />
                             ))}
                         </Container>
@@ -107,12 +108,12 @@ function TeeTimeSearch() {
                                     <div className="border">
                                         <h5 className="mt-2">{item.name}</h5>
                                         <Container className="search-result-item">
-                                            <p>Type: {item.type}</p>
+                                            <p>Type: {item.name}</p>
                                             <p>Date: {item.date}</p>
                                             <p>Time: {item.time}</p>
                                             <p>Price: ${item.price}</p>
                                         </Container>
-                                        <Button className="book-btn mb-3" onClick={openTeeTimeBookingModal}>
+                                        <Button className="book mb-3" onClick={openTeeTimeBookingModal}>
                                             Book a Tee Time
                                         </Button>
                                     </div>

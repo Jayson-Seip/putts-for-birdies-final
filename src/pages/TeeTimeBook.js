@@ -73,7 +73,7 @@ function TeeTimeBook({ onSubmit }) {
                                     onChange={handleChange}
                                 >
                                     <option> 9-Hole Golf Course</option>
-                                    <option> 19 Hole Golf Course</option>
+                                    <option> 18-Hole Golf Course</option>
 
                                 </Form.Control>
                             </Form.Group>
