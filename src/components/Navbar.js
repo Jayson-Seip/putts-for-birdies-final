@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css'
 
 
-function navbar({ handleSignInClick }) {
+function navbar({ handleSignInClick, handleReviewClick }) {
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -23,7 +23,7 @@ function navbar({ handleSignInClick }) {
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
                             Sign-in
                         </Nav.Link>
-                        <Link to="/search" className="nav-link">Search</Link>
+                        <Nav.Link className="nav-link" onClick={handleReviewClick}>Leave a Review</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

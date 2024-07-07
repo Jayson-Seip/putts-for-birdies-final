@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 
 function SignIn({ show, handleClose }) {
     const [isSignedIn, setIsSignedIn] = useState(false);
@@ -18,13 +18,23 @@ function SignIn({ show, handleClose }) {
                 {isSignedIn ? (
                     <p>You are signed in!</p>
                 ) : (
-                    <form onSubmit={handleSignIn}>
-                        <input type="text" placeholder="Username" />
-                        <input type="password" placeholder="Password" />
-                        <Button variant="primary" type="submit">
-                            Sign In
-                        </Button>
-                    </form>
+                    <Form onSubmit={handleSignIn}>
+                        <Row className="mb-3">
+                            <Col sm={6}>
+                                <Form.Control type="text" placeholder="Username" className="username" />
+                            </Col>
+                            <Col sm={6}>
+                                <Form.Control type="password" placeholder="Password" className="password" />
+                            </Col>
+                        </Row>
+                        <Row className="mb-3">
+                            <Col sm={12} className="text-center">
+                                <Button variant="primary" type="submit" className="btn-sign-in">
+                                    Sign In
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
                 )}
             </Modal.Body>
             {isSignedIn && (

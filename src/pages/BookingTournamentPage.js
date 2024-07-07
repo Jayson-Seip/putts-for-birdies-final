@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
+import { tournaments } from '../components/TournamentData'; // Import the tournament data
 
 function BookingTournamentPage({ onSubmit }) {
     const [step, setStep] = useState(1);
@@ -9,24 +10,38 @@ function BookingTournamentPage({ onSubmit }) {
         lastName: '',
         email: '',
         phoneNumber: '',
-        tournamentName: '',
+        tournamentName: tournaments.length > 0 ? tournaments[0].name : '',
         teeTime: '',
-        // Add more fields as needed
+        equipment: {
+            golfClubs: false,
+            tees: false,
+            balls: false,
+        }
     });
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData, [name]: value, equipment: {
-                ...formData.equipment,
-                [name]: checked,
-            },
-        });
+
+        if (type === 'checkbox') {
+            setFormData((prevData) => ({
+                ...prevData,
+                equipment: {
+                    ...prevData.equipment,
+                    [name]: checked,
+                },
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true);
+        onSubmit(formData); // Call onSubmit with the form data
     };
 
     const handleNext = () => {
@@ -40,13 +55,27 @@ function BookingTournamentPage({ onSubmit }) {
 
     return (
         <Container>
-            {!submitted ? ( // Conditionally render form if not submitted
+            {!submitted ? (
                 <Form onSubmit={handleSubmit}>
                     <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
                     {step === 1 && (
                         <div>
-
-                            <Form.Group controlId="Info">
+                            <Form.Group controlId="tournament-select">
+                                <Form.Label>Select a Tournament</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="tournamentName"
+                                    value={formData.tournamentName}
+                                    onChange={handleChange}
+                                >
+                                    {tournaments.map((tournament) => (
+                                        <option key={tournament.id} value={tournament.name}>
+                                            {tournament.name}
+                                        </option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group controlId="personal-info" className="mt-4">
                                 <Row>
                                     <Col sm={6}>
                                         <Form.Label>First Name</Form.Label>
@@ -58,40 +87,41 @@ function BookingTournamentPage({ onSubmit }) {
                                             required
                                         />
                                     </Col>
-                                    <Col sm={6}><Form.Label> Last Name </Form.Label>
+                                    <Col sm={6}>
+                                        <Form.Label>Last Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             name="lastName"
                                             value={formData.lastName}
                                             onChange={handleChange}
                                             required
-                                        /></Col>
+                                        />
+                                    </Col>
                                 </Row>
-                                <Row>
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                <Row className="mt-2">
+                                    <Col sm={6}>
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col sm={6}>
+                                        <Form.Label>Phone Number</Form.Label>
+                                        <Form.Control
+                                            type="tel"
+                                            name="phoneNumber"
+                                            value={formData.phoneNumber}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Col>
                                 </Row>
-                                <Row>
-                                    <Form.Label>phoneNumber</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        name="phoneNumber"
-                                        value={formData.phoneNumber}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </Row>
-
-
 
                             </Form.Group>
-                            {/* Add other form fields for step 1 */}
                             <Button variant="primary mt-2" onClick={handleNext}>
                                 Next
                             </Button>
@@ -99,7 +129,7 @@ function BookingTournamentPage({ onSubmit }) {
                     )}
                     {step === 2 && (
                         <div>
-                            <Form.Group controlId="tournament-info">
+                            <Form.Group controlId="equipment-info">
                                 <Form.Label>Do You Require Equipment</Form.Label>
                                 <Form.Check
                                     type="radio"
@@ -118,7 +148,6 @@ function BookingTournamentPage({ onSubmit }) {
                                     checked={formData.requireEquipment === 'no'}
                                 />
                             </Form.Group>
-                            {/* Add other form fields for step 2 */}
                             {formData.requireEquipment === 'yes' && (
                                 <Form.Group>
                                     <Form.Label>Equipment Needed:</Form.Label>
@@ -154,11 +183,10 @@ function BookingTournamentPage({ onSubmit }) {
             ) : (
                 <div>
                     <h3>Thank you for your submission!</h3>
-                    {/* You can add additional content here after submission */}
                 </div>
             )}
         </Container>
     );
-};
+}
 
 export default BookingTournamentPage;

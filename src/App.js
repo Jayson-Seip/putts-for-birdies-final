@@ -20,8 +20,9 @@ import GolfCoursePage from './pages/GolfCourse';
 import DrivingRangePage from './pages/DrivingRange';
 import PuttingGreenPage from './pages/PuttingGreen';
 import SignInPage from './pages/SignIn';
-import BookingLessonPage from './pages/BookLesson';
+import SummerCampSearch from './pages/SummerCampSearch';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ReviewForm from './components/ReviewForm';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -33,10 +34,25 @@ function App() {
   const handleOpenModal = () => {
     setShowModal(true);
   };
+
+  const [reviews, setReviews] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSubmitReview = (review) => {
+    setReviews([...reviews, review]);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <BrowserRouter>
       <div className="App">
-        <Navbar handleSignInClick={handleOpenModal} />
+        <Navbar handleSignInClick={handleOpenModal} handleReviewClick={openModal} />
         <Scroll />
         <Routes>
           <Route /*Landing Page */
@@ -64,10 +80,12 @@ function App() {
           <Route path="/Golf-Courses" element={<GolfCoursePage />} />
           <Route path="/Driving-Range" element={<DrivingRangePage />} />
           <Route path="/Putting-Green" element={<PuttingGreenPage />} />
-          <Route path="/sign-in" element={<SignInPage />} />
+
+          <Route path="/Summer-Camp-Search" element={<SummerCampSearch />} />
 
         </Routes>
         <SignInPage show={showModal} handleClose={handleCloseModal} />
+        <ReviewForm isOpen={isModalOpen} onClose={closeModal} onSubmit={handleSubmitReview} />
       </div>
     </BrowserRouter>
 

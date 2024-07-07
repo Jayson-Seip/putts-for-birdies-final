@@ -1,6 +1,7 @@
-import { Container, Card, Button, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Container, Card, Button, Row, Col, Modal } from "react-bootstrap";
 import "./Lessons.css"
+import BookingLessonPage from "./BookLesson.js";
 const lessonPackages = [
     {
         title: 'Beginner Package',
@@ -113,7 +114,9 @@ const convertToEmbedURL = (url) => {
 
 
 
-function lesson() {
+function Lesson() {
+    const [showBookingModal, setShowBookingModal] = useState(false)
+
     const openBookingModal = () => {
         setShowBookingModal(true);
     };
@@ -141,12 +144,20 @@ function lesson() {
                                         ))}
                                     </ul>
                                     <Card.Text className="price">Price: {pkg.price}</Card.Text>
-                                    <Button variant="primary" onClick={handleButtonClick}>Book Now</Button>
+                                    <Button variant="primary" onClick={openBookingModal}>Book Now</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
                     ))}
                 </Row>
+                <Modal show={showBookingModal} onHide={closeBookingModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Book Tournament</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <BookingLessonPage onClose={closeBookingModal} />
+                    </Modal.Body>
+                </Modal>
             </Container>
             <Container className="mt-5">
                 <h2> Video Tutorials </h2>
@@ -177,4 +188,4 @@ function lesson() {
 
 }
 
-export default lesson;
+export default Lesson;
