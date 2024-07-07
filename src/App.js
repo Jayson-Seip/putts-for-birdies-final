@@ -53,7 +53,7 @@ function App() {
     setIsModalOpen(false);
   };
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="App">
         <Navbar handleSignInClick={handleOpenModal} handleReviewClick={openModal} />
         <Scroll />
@@ -94,7 +94,7 @@ function App() {
         <SignInPage show={showModal} handleClose={handleCloseModal} />
         <ReviewForm isOpen={isModalOpen} onClose={closeModal} onSubmit={handleSubmitReview} />
       </div>
-    </BrowserRouter>
+    </HashRouter>
 
 
 
