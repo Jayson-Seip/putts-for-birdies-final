@@ -59,7 +59,7 @@ function App() {
         <Scroll />
         <Routes>
           <Route /*Landing Page */
-            path="/"
+            path="/putts-for-birdies/"
             element={
               <>
                 <CarouselImg />
