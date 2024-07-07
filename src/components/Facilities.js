@@ -1,43 +1,34 @@
 import React from 'react';
-import { Container, Row, Col, Button, Image } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './Facilities.css'
 
 function Facilities() {
-    const navigate = useNavigate();
-    const handleCourseButtonClick = () => {
-        navigate('/Golf-Courses');
-    };
 
-    const handleDrivingRangeButtonClick = () => {
-        navigate('/Driving-Range');
-    };
-    const handlePuttingButtonClick = () => {
-        navigate('/Putting-Green');
-    };
     return (
         <Container fluid className="facilities mt-4">
             <Container className="text-header">
                 <h1> Our Facilites</h1>
+                <h5> We offer 3 Great Facilities to enhance your golfing experience</h5>
             </Container>
             <Row className="facilities-grid mt-4">
                 <Col sm={4}>
                     <Image src="images\golfcourse.jpg" className="facility-image" />
                     <h2>Golf Courses</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels.</p>
-                    <Button className="info-button" onClick={handleCourseButtonClick}>More Information</Button>
+                    <Link className="info-button" to="/Golf-Courses">More Information</Link>
                 </Col>
                 <Col sm={4}>
                     <Image src="\images\Driving-Range.jpg" className="facility-image" />
                     <h2>Driving Range</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels.</p>
-                    <Button className="info-button" onClick={handleDrivingRangeButtonClick}>More Information</Button>
+                    <Link className="info-button" to="/Driving-Range">More Information</Link>
                 </Col>
                 <Col sm={4}>
                     <Image src="images\PuttingGreen.jpg" className="facility-image" />
                     <h2>Putting/Chipping Green</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels..</p>
-                    <Button className="info-button" onClick={handlePuttingButtonClick}>More Information</Button>
+                    <Link className="info-button" to="/Putting-Green">More Information</Link>
                 </Col>
             </Row>
         </Container>

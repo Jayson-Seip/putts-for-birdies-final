@@ -25,6 +25,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReviewForm from './components/ReviewForm';
 import WeeklySchedulePage from './pages/WeeklySchedule';
 import { Location } from './components/Location';
+import TeeTimeSearch from './pages/TeeTimeSearch';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -67,6 +68,7 @@ function App() {
 
                 <Container className="text-header mt-4">
                   <h1>Services Offered</h1>
+                  <h5> we offer 3 Services desinged to make your golfing experence memorable </h5>
                 </Container>
                 <Tournaments />
                 <Lesson />
@@ -86,6 +88,7 @@ function App() {
           <Route path="/WeeklySchedule" element={<WeeklySchedulePage />} />
 
           <Route path="/Summer-Camp-Search" element={<SummerCampSearch />} />
+          <Route path="/Tee-Time-Search" element={<TeeTimeSearch />} />
 
         </Routes>
         <SignInPage show={showModal} handleClose={handleCloseModal} />

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Container, Card, Button, Row, Col, Modal } from "react-bootstrap";
 import "./Lessons.css"
 import BookingLessonPage from "./BookLesson.js";
-const lessonPackages = [
+export const lessonPackages = [
     {
+        id: 1,
         title: 'Beginner Package',
         description: 'Perfect for those new to golf, this package includes introduction to basic golf techniques and etiquette.',
         features: [
@@ -16,6 +17,7 @@ const lessonPackages = [
         price: '$500'
     },
     {
+        id: 2,
         title: 'Intermediate Package',
         description: 'Prefect for Golfers with previous golf experence and are looking to improve there golf game.',
         features: [
@@ -28,6 +30,7 @@ const lessonPackages = [
         price: '$800'
     },
     {
+        id: 3,
         title: 'Advance Package',
         description: 'Designed for experienced golfers seeking to refine their skills and excel in competitive play.',
         features: [
@@ -39,6 +42,7 @@ const lessonPackages = [
         price: '$1100'
     },
     {
+        id: 4,
         title: 'Single Lessons',
         description: 'A singular private one-on-one lesson with one of our instructors.',
         features: [
@@ -49,6 +53,7 @@ const lessonPackages = [
         price: '$60/Hour'
     },
     {
+        id: 5,
         title: 'Group Lessons',
         description: 'Learn golf in a group setting with friends or other participants.',
         features: [
@@ -60,6 +65,7 @@ const lessonPackages = [
         price: '$70/Hour'
     },
     {
+        id: 6,
         title: 'Family Lessons',
         description: 'Enjoy golf lessons together with your family members.',
         features: [

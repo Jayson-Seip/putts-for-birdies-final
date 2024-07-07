@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
 import "./SummerCampSearch.css"
+import BookingSummerCamp from './BookingSummerCamp';
 
 
 
@@ -8,7 +9,7 @@ const CampCategories = ['Junior', 'Senior', 'Family'];
 const AgeGroups = ['7-13', '14-18', 'Any'];
 
 // Mock Data
-const summerCamps = [
+export const summerCamps = [
     { id: 1, name: 'Camp A', category: 'Junior', ageGroup: '7-13', weekday: 'Monday', price: '200' },
     { id: 2, name: 'Camp B', category: 'Senior', ageGroup: '14-18', weekday: 'Wednesday', price: '250' },
     { id: 3, name: 'Camp C', category: 'Family', ageGroup: '', weekday: 'Friday', price: '300' },
@@ -150,6 +151,7 @@ function SummerCampSearch() {
                     <Modal.Title>Book Summer Camp</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <BookingSummerCamp onClose={closeBookingModal}></BookingSummerCamp>
                 </Modal.Body>
             </Modal>
         </Container>

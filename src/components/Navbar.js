@@ -1,5 +1,5 @@
 //import React, { useState } from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 //import { BrowserRouter as Rotuer, Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
@@ -16,8 +16,28 @@ function navbar({ handleSignInClick, handleReviewClick }) {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <Link to="/" className="nav-link">Our Facilities</Link>
-                        <Link to="/services" className="nav-link">Our Services</Link>
+                        <NavDropdown title="Our Facilities" id="facilities-dropdown">
+                            <NavDropdown.Item as={Link} to="/Golf-Courses">
+                                Golf Courses
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/Driving-Range">
+                                Driving Range
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/Putting-Green">
+                                Putting/Chipping Green
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Our Services" id="services-dropdown">
+                            <NavDropdown.Item as={Link} to="/tournaments">
+                                Tournaments
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/lessons">
+                                Lessons
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/SummerCamp">
+                                Summer Camp
+                            </NavDropdown.Item>
+                        </NavDropdown>
                         <Link to="/" className="nav-link">Location</Link>
                         <Link to="/WeeklySchedule" className="nav-link">Weekly Calendar</Link>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>

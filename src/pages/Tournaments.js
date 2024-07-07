@@ -9,6 +9,7 @@ const tournamentTypes = [
         description: "These tournaments are organized to raise funds for charitable causes and are hosted by the club. All proceeds generated from these events go towards various charitable initiatives and community projects.",
     },
     {
+        image: "/images/Junior-tournament.jpg",
         title: "Juniors Tournaments",
         description: "Junior tournaments provide young golfers, typically under 18, with competitive and developmental opportunities. These events are crucial for nurturing future talent and promoting the sport among youth. "
     },
@@ -18,6 +19,7 @@ const tournamentTypes = [
         description: "Senior tournaments cater to golfers typically over 50, showcasing their experience and skill. These events celebrate the longevity and passion of seasoned players in the golfing community."
     },
     {
+        image: "/images/Tournament.jpg",
         title: "Stroke Play Tournaments",
         description: "Stroke play tournaments challenge golfers to complete the course in the fewest total strokes. This torunament is the most common and well known form of golf typically played among indviduals"
     },
@@ -51,9 +53,9 @@ function Tournament() {
                         <Card className="tournament-card">
                             <Card.Body>
                                 <CardImg variant="top" src={pkg.image} className="img"></CardImg>
-                                <Card.Title>{pkg.title}</Card.Title>
+                                <Card.Title className="mt-2">{pkg.title}</Card.Title>
                                 <Card.Text className="tournament-description">{pkg.description}</Card.Text>
-                                <Button onClick={handleButtonClick} variant="primary">Search for Tournaments</Button>
+                                <Button className="info-button" onClick={handleButtonClick} variant="primary">Search for Tournaments</Button>
                             </Card.Body>
                         </Card>
                     </Col>
