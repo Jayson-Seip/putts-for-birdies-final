@@ -69,7 +69,6 @@ const WeeklySchedule = () => {
         });
         console.log(localBooking['Saturday']);
         console.log(combinedBookings['Wednesday']);
-        console.log()
         Object.keys(localBooking).forEach(dayOfWeek => {
             // Check if the dayOfWeek exists in combinedBookings
             if (!combinedBookings[dayOfWeek]) {

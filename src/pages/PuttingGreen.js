@@ -6,7 +6,7 @@ function PuttingGreen() {
         <Container className="lesson-container mt-5">
             <Row className="RowOne">
                 <Col sm={5} className="Image order-1 order-md-2">
-                    <Image src="\images\PuttingGreen.jpg" className="custom-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/PuttingGreen.jpg"} className="custom-image" />
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center order-2 order-ms-1">
                     <div className="lesson-info">
@@ -20,12 +20,12 @@ function PuttingGreen() {
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center order-2 order-ms-1">
                     <div className="lesson-info">
                         <h1>Chipping Green</h1>
-                        <p>Step onto our meticulously maintained putting green, where precision and finesse converge in a tranquil oasis dedicated to perfecting your short game. Nestled amidst lush surroundings, our putting green offers a sanctuary for golfers of all levels to sharpen their skills and achieve mastery on the greens. Before you tee off, take advantage of this serene space to warm up and refine your putting technique. Practice your stroke on immaculate surfaces that simulate real course conditions, ensuring you're prepared for any challenge on the course ahead. Whether you're aiming for the perfect putt or simply enjoying the calming ambiance, our putting green promises an essential part of your golfing journey</p>
+                        <p>Elevate your short game at our meticulously maintained putting green. Designed to simulate real-course conditions, our putting green offers the perfect environment for golfers of all skill levels to practice and refine their putting techniques. Whether you're warming up before a round or spending a dedicated practice session, you'll appreciate the smooth, true roll of our greens. Take advantage of this facility to lower your scores and boost your confidence on the course. Join us today and watch your putting game soar!</p>
 
                     </div>
                 </Col>
                 <Col sm={5} className="Image order-1 order-md-2">
-                    <Image src="\images\Chipping-Green.jpg" className="custom-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/Chipping-Green.jpg"} className="custom-image" />
                 </Col>
             </Row>
 

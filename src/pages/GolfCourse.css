@@ -6,3 +6,14 @@
 .golf-course-info p {
     text-align: justify;
 }
+
+.book {
+    background-color: seagreen;
+    color: white;
+
+}
+
+.book:hover {
+    background-color: darkgreen;
+    border-color: darkgreen;
+}

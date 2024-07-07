@@ -10,9 +10,9 @@ function navbar({ handleSignInClick, handleReviewClick }) {
     return (
         <Navbar expand="lg" className="Nav">
             <Container fluid>
-                <Navbar.Brand href="/" className="Site-Name">
+                <Link to="/" className="Site-Name">
                     Putts For Birdies
-                </Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">

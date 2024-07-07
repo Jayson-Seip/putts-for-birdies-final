@@ -18,7 +18,7 @@ function Lesson() {
                     </div>
                 </Col>
                 <Col sm={5} className="Image order-1 order-md-2">
-                    <Image src="images/GolfLessonPhoto.jpg" className="custom-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/GolfLessonPhoto.jpg"} className="custom-image" />
                 </Col>
             </Row>
         </Container>

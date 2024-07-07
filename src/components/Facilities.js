@@ -13,19 +13,19 @@ function Facilities() {
             </Container>
             <Row className="facilities-grid mt-4">
                 <Col sm={4}>
-                    <Image src="images\golfcourse.jpg" className="facility-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/golfcourse.jpg"} className="facility-image" />
                     <h2>Golf Courses</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels.</p>
                     <Link className="info-button" to="/Golf-Courses">More Information</Link>
                 </Col>
                 <Col sm={4}>
-                    <Image src="\images\Driving-Range.jpg" className="facility-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/Driving-Range.jpg"} className="facility-image" />
                     <h2>Driving Range</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels.</p>
                     <Link className="info-button" to="/Driving-Range">More Information</Link>
                 </Col>
                 <Col sm={4}>
-                    <Image src="images\PuttingGreen.jpg" className="facility-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/PuttingGreen.jpg"} className="facility-image" />
                     <h2>Putting/Chipping Green</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels..</p>
                     <Link className="info-button" to="/Putting-Green">More Information</Link>

@@ -80,8 +80,11 @@ function TournamentSearch() {
     };
 
     return (
-        <Container>
-            <h1>Search for Tournament</h1>
+        <Container >
+            <Container className="tournament-heading">
+                <h1>Search for Tournament</h1>
+            </Container>
+
             <Form>
 
                 <Row className="mt-4">
@@ -143,7 +146,7 @@ function TournamentSearch() {
                                             <p>Time: {item.time}</p>
                                             <p>Price: ${item.price}</p>
                                         </Container>
-                                        <Button className="book-btn mb-3" onClick={openBookingModal} >Book a Spot</Button>
+                                        <Button className="book mb-3" onClick={openBookingModal} >Book a Spot</Button>
 
 
                                     </div>

@@ -5,7 +5,7 @@ function DrivingRange() {
         <Container fluid className="range-container mt-5">
             <Row className="Row1">
                 <Col md={6} className=" order-1 order-md-2">
-                    <Image src="/images/Driving-Range.jpg" className="Image-range" />
+                    <Image src={process.env.PUBLIC_URL + "/images/Driving-Range.jpg"} className="Image-range" />
                 </Col>
                 <Col md={6} className="Information d-flex justify-content-center  order-2 order-ms-1">
                     <div className="range-info">

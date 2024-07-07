@@ -10,7 +10,7 @@ function Tournaments() {
         <Container className="tournament-container mt-5">
             <Row>
                 <Col sm={5} className="Image">
-                    <Image src="images/thumb_IMG_0450_1024_large.jpg" className="custom-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/thumb_IMG_0450_1024_large.jpg"} className="custom-image" />
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center">
                     <div className="Tournament-Info">

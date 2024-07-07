@@ -10,7 +10,7 @@ function SummerCamp() {
         <Container className=" mt-5">
             <Row>
                 <Col sm={5} className="Image">
-                    <Image src="/images/SummerCamp.jpg" className="custom-image" />
+                    <Image src={process.env.PUBLIC_URL + "/images/SummerCamp.jpg"} className="custom-image" />
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center">
                     <div className="Tournament-Info">
