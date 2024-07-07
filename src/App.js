@@ -21,7 +21,7 @@ import DrivingRangePage from './pages/DrivingRange';
 import PuttingGreenPage from './pages/PuttingGreen';
 import SignInPage from './pages/SignIn';
 import SummerCampSearch from './pages/SummerCampSearch';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import ReviewForm from './components/ReviewForm';
 import WeeklySchedulePage from './pages/WeeklySchedule';
 import { Location } from './components/Location';
