@@ -23,6 +23,8 @@ import SignInPage from './pages/SignIn';
 import SummerCampSearch from './pages/SummerCampSearch';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReviewForm from './components/ReviewForm';
+import WeeklySchedulePage from './pages/WeeklySchedule';
+import { Location } from './components/Location';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -69,6 +71,7 @@ function App() {
                 <Tournaments />
                 <Lesson />
                 <SummerCamp />
+                <Location />
               </>
             }
           />
@@ -80,6 +83,7 @@ function App() {
           <Route path="/Golf-Courses" element={<GolfCoursePage />} />
           <Route path="/Driving-Range" element={<DrivingRangePage />} />
           <Route path="/Putting-Green" element={<PuttingGreenPage />} />
+          <Route path="/WeeklySchedule" element={<WeeklySchedulePage />} />
 
           <Route path="/Summer-Camp-Search" element={<SummerCampSearch />} />
 

@@ -169,7 +169,7 @@ function Lesson() {
                         <Card className="mt-5">
                             <Card.Body>
                                 <Card.Title>{pkg.title}</Card.Title>
-                                <iframe className="video"
+                                <iframe className="tutorial-video"
                                     width="100%"
                                     height="200"
                                     src={convertToEmbedURL(pkg.videoLink)}

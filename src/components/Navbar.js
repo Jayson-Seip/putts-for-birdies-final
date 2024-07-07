@@ -19,7 +19,7 @@ function navbar({ handleSignInClick, handleReviewClick }) {
                         <Link to="/" className="nav-link">Our Facilities</Link>
                         <Link to="/services" className="nav-link">Our Services</Link>
                         <Link to="/location" className="nav-link">Location</Link>
-                        <Link to="/calendar" className="nav-link">Weekly Calendar</Link>
+                        <Link to="/WeeklySchedule" className="nav-link">Weekly Calendar</Link>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
                             Sign-in
                         </Nav.Link>

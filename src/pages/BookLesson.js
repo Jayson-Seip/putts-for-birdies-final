@@ -15,7 +15,7 @@ function BookingLessonPage({ onSubmit }) {
     });
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, checked } = e.target;
         setFormData({
             ...formData, [name]: value, equipment: {
                 ...formData.equipment,

@@ -1,0 +1,35 @@
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+    background-color: #333;
+    border: 1px solid #333;
+}
+
+.header {
+    display: contents;
+}
+
+.row-t {
+    display: contents;
+}
+
+.cell {
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.time-header,
+.day-header {
+    background-color: #ccc;
+    font-weight: bold;
+}
+
+.time-cell {
+    background-color: #eee;
+}
+
+.booked {
+    background-color: #99c2ff;
+}
