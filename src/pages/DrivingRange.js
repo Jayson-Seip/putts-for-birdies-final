@@ -9,7 +9,8 @@ function DrivingRange() {
                 </Col>
                 <Col md={6} className="Information d-flex justify-content-center  order-2 order-ms-1">
                     <div className="range-info">
-                        <h1>Driving Range</h1>
+                        <Container className="text-header"><h1>Driving Range</h1></Container>
+
                         <p>Step onto our expansive driving range and elevate your golfing prowess amidst a backdrop of serene landscapes. Perfect your swing with premium golf balls and professional guidance, ensuring every shot reaches its potential. Our facility offers a welcoming environment for golfers of all levels, whether you're practicing for competition or simply enjoying the sport. Experience the joy of improvement in every session at our renowned driving range, where dedication meets exceptional coaching and scenic tranquility.</p>
                         <h6> Overview of Features</h6>
                         <ul>

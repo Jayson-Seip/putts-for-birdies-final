@@ -8,7 +8,7 @@ function GolfCourse() {
     };
     return (
         <Container fluid className=" golf-course-web  p-0 mt-2">
-            <Container className=" text-header golf-course-info mb-5">
+            <Container className=" golf-course-info mb-5">
                 <h1> Our Golf Courses</h1>
                 <h5> Select from one of our 3 Golf Courses to Play on</h5>
             </Container>
