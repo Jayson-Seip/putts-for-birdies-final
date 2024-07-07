@@ -55,7 +55,7 @@ function Tournament() {
                                 <CardImg variant="top" src={pkg.image} className="img"></CardImg>
                                 <Card.Title className="mt-2">{pkg.title}</Card.Title>
                                 <Card.Text className="tournament-description">{pkg.description}</Card.Text>
-                                <Button className="book" onClick={handleButtonClick} variant="primary">Search for Tournaments</Button>
+                                <Button className="book" onClick={handleButtonClick}>Search for Tournaments</Button>
                             </Card.Body>
                         </Card>
                     </Col>

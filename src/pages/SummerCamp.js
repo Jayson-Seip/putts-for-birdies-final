@@ -26,9 +26,10 @@ function SummerCamp() {
     };
     return (
         <Container>
-            <h1 className="mt-4">SummerCamp</h1>
+            <Container className="text-header"><h1 className="mt-4">Summer Camp</h1></Container>
             <h3>Summer Camps run Monday to Friday from 8am to 5pm</h3>
             <h5> Offered for All Skill Levels </h5>
+
 
             <Row className="mt-4">
                 {SummerCampPackages.map((pkg, index) => (
@@ -39,7 +40,7 @@ function SummerCamp() {
                                 <Card.Title>{pkg.title}</Card.Title>
                                 <Card.Text className="tournament-description">{pkg.description}
                                 </Card.Text>
-                                <Button variant="primary" onClick={handleButtonClick}>Search for Camp</Button>
+                                <Button className="book" onClick={handleButtonClick}>Search for Camp</Button>
                             </Card.Body>
                         </Card>
                     </Col>

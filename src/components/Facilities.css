@@ -16,9 +16,7 @@
     background-color: white;
     color: gold;
     border: none;
-    /* Remove default border */
     outline: none;
-    /* Remove default outline */
     text-align: left;
     text-decoration: none;
 }

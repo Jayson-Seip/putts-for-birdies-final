@@ -1,6 +1,4 @@
-//import React, { useState } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
-//import { BrowserRouter as Rotuer, Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
 
@@ -38,7 +36,6 @@ function navbar({ handleSignInClick, handleReviewClick }) {
                                 Summer Camp
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Link to="/" className="nav-link">Location</Link>
                         <Link to="/WeeklySchedule" className="nav-link">Weekly Calendar</Link>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
                             Sign-in

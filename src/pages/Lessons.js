@@ -132,10 +132,10 @@ function Lesson() {
     };
 
     return (
-        <Container>
+        <Container className="lessons-page">
             <Container className="mt-4">
-                <h1>Lessons</h1>
-                <h3> Choose from our variaty of packages and for different Skill Levels</h3>
+                <h1 className="green-heading">Lessons</h1>
+                <h4> Choose from our variaty of packages and for different Skill Levels</h4>
                 <Row>
                     {lessonPackages.map((pkg, index) => (
                         <Col key={index} md={6} lg={4} className="mb-4">
@@ -150,7 +150,7 @@ function Lesson() {
                                         ))}
                                     </ul>
                                     <Card.Text className="price">Price: {pkg.price}</Card.Text>
-                                    <Button variant="primary" onClick={openBookingModal}>Book Now</Button>
+                                    <Button className="book" onClick={openBookingModal}>Book Now</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -166,8 +166,8 @@ function Lesson() {
                 </Modal>
             </Container>
             <Container className="mt-5">
-                <h2> Video Tutorials </h2>
-                <h5> Check out our below video tutorials to get a grasp on the basic elements of golf before booking lessons</h5>
+                <h1 className="green-heading"> Video Tutorials </h1>
+                <h4> Check out our below video tutorials to get a grasp on the basic elements of golf before booking lessons</h4>
             </Container>
             <Row>
                 {videoTutorials.map((pkg, index) => (

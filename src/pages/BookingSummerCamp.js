@@ -17,6 +17,7 @@ function BookingSummerCamp({ onSubmit }) {
         requireEquipment: 'no',
         equipment: {}
     });
+    const [bookingNumber, setBookingNumber] = useState(null); // State to store booking number
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -44,9 +45,19 @@ function BookingSummerCamp({ onSubmit }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true);
+        const bookingData = {
+            ...formData,
+            id: generateBookingId(), // Generate a unique booking ID
+        };
+        setBookingNumber(bookingData.id); // Set the booking number
         if (onSubmit) {
-            onSubmit(formData);
+            onSubmit(bookingData);
         }
+    };
+
+    const generateBookingId = () => {
+        // Replace with your logic to generate a unique ID (e.g., timestamp-based or UUID)
+        return new Date().getTime().toString();
     };
 
     const handleNext = () => {
@@ -74,8 +85,8 @@ function BookingSummerCamp({ onSubmit }) {
                                     onChange={handleChange}
                                 >
                                     {summerCamps.map((camp) => (
-                                        <option key={camp.id} value={camp.name}>
-                                            {camp.name}
+                                        <option key={camp.id} value={camp.title}>
+                                            {camp.title}
                                         </option>
                                     ))}
                                 </Form.Control>
@@ -117,7 +128,7 @@ function BookingSummerCamp({ onSubmit }) {
                                     <Col sm={6}>
                                         <Form.Label>Parent Phone Number</Form.Label>
                                         <Form.Control
-                                            type="number"
+                                            type="tel"
                                             name="parentPhoneNumber"
                                             value={formData.parentPhoneNumber}
                                             onChange={handleChange}
@@ -193,7 +204,7 @@ function BookingSummerCamp({ onSubmit }) {
                                     <Form.Label>Equipment Needed:</Form.Label>
                                     <Form.Check
                                         type="checkbox"
-                                        label="golfClub"
+                                        label="Golf Club"
                                         name="golfClub"
                                         checked={formData.equipment.golfClub || false}
                                         onChange={handleChange}
@@ -209,10 +220,20 @@ function BookingSummerCamp({ onSubmit }) {
             ) : (
                 <div>
                     <h3>Thank you for your submission!</h3>
+                    <p>Your booking number is: {bookingNumber}</p>
+                    <h4>Submitted Information:</h4>
+                    <p><strong>Parent Name:</strong> {formData.parentFirstName} {formData.parentLastName}</p>
+                    <p><strong>Parent Email:</strong> {formData.parentEmail}</p>
+                    <p><strong>Parent Phone:</strong> {formData.parentPhoneNumber}</p>
+                    <p><strong>Child Name:</strong> {formData.childFirstName} {formData.childLastName}</p>
+                    <p><strong>Child Age:</strong> {formData.childAge}</p>
+                    <p><strong>Camp Package:</strong> {formData.campPackage}</p>
+                    <p><strong>Require Equipment:</strong> {formData.requireEquipment}</p>
+                    {formData.requireEquipment === 'yes' && (
+                        <p><strong>Equipment Needed:</strong> Golf Club</p>
+                    )}
                 </div>
             )}
-
-
         </Container>
     );
 }

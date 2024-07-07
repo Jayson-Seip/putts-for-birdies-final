@@ -36,6 +36,8 @@ const BookingTournamentPage = () => {
         startTime: '', // Updated field for start time input
         selectedDay: '', // New field to store the selected day of the week
     });
+    const [submittedData, setSubmittedData] = useState(null);
+    const [bookingNumber, setBookingNumber] = useState(null);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -86,6 +88,8 @@ const BookingTournamentPage = () => {
         };
         localStorage.setItem('userBookings', JSON.stringify(updatedBookings));
 
+        setSubmittedData(bookingData);
+        setBookingNumber(bookingData.id);
         setSubmitted(true);
     };
 
@@ -263,6 +267,27 @@ const BookingTournamentPage = () => {
             ) : (
                 <div>
                     <h3>Thank you for your submission!</h3>
+                    <p>Your booking number is: {bookingNumber}</p>
+                    <h4>Submitted Information:</h4>
+                    <p><strong>First Name:</strong> {submittedData.firstName}</p>
+                    <p><strong>Last Name:</strong> {submittedData.lastName}</p>
+                    <p><strong>Email:</strong> {submittedData.email}</p>
+                    <p><strong>Phone Number:</strong> {submittedData.phoneNumber}</p>
+                    <p><strong>Tournament Name:</strong> {submittedData.tournamentName}</p>
+                    <p><strong>Start Date:</strong> {submittedData.startDate}</p>
+                    <p><strong>Start Time:</strong> {submittedData.startTime}</p>
+                    <p><strong>Selected Day:</strong> {submittedData.selectedDay}</p>
+                    <p><strong>Require Equipment:</strong> {submittedData.requireEquipment}</p>
+                    {submittedData.requireEquipment === 'yes' && (
+                        <div>
+                            <p><strong>Equipment Needed:</strong></p>
+                            <ul>
+                                {submittedData.equipment.golfClubs && <li>Golf Clubs</li>}
+                                {submittedData.equipment.tees && <li>Tees</li>}
+                                {submittedData.equipment.balls && <li>Balls</li>}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             )}
         </Container>

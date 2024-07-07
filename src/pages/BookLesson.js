@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
-import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
+import { Container, Form, Button, ProgressBar, Row, Col } from 'react-bootstrap';
 import { lessonPackages } from './Lessons';
-
-function BookingLessonPage({ onSubmit }) {
+function BookingForm() {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
+        pkgLesson: '',
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        pkgLesson: lessonPackages.length > 0 ? lessonPackages[1].title : '',
-        teeTime: '',
-        // Add more fields as needed
+        requireEquipment: '',
+        equipment: {
+            golfClubs: false,
+            tees: false,
+            balls: false,
+        },
     });
+    const [submittedData, setSubmittedData] = useState(null);
+    const [bookingNumber, setBookingNumber] = useState(null);
+
+    const handleNext = () => setStep(step + 1);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        if (type === "checkbox") {
+        if (type === 'checkbox') {
             setFormData({
                 ...formData,
                 equipment: {
@@ -35,21 +42,18 @@ function BookingLessonPage({ onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setSubmittedData(formData);
+        setBookingNumber(Math.floor(Math.random() * 1000000));
         setSubmitted(true);
     };
 
-    const handleNext = () => {
-        setStep(step + 1);
-    };
-
     const calculateProgress = () => {
-        const totalSteps = 2; // Adjust this based on total steps
-        return Math.round((step / totalSteps) * 100);
+        return step === 1 ? 50 : 100;
     };
 
     return (
         <Container>
-            {!submitted ? ( // Conditionally render form if not submitted
+            {!submitted ? (
                 <Form onSubmit={handleSubmit}>
                     <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
                     {step === 1 && (
@@ -70,7 +74,6 @@ function BookingLessonPage({ onSubmit }) {
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="Info">
-
                                 <Row>
                                     <Col sm={6}>
                                         <Form.Label>First Name</Form.Label>
@@ -82,14 +85,16 @@ function BookingLessonPage({ onSubmit }) {
                                             required
                                         />
                                     </Col>
-                                    <Col sm={6}><Form.Label> Last Name </Form.Label>
+                                    <Col sm={6}>
+                                        <Form.Label>Last Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             name="lastName"
                                             value={formData.lastName}
                                             onChange={handleChange}
                                             required
-                                        /></Col>
+                                        />
+                                    </Col>
                                 </Row>
                                 <Row>
                                     <Form.Label>Email</Form.Label>
@@ -102,7 +107,7 @@ function BookingLessonPage({ onSubmit }) {
                                     />
                                 </Row>
                                 <Row>
-                                    <Form.Label>phoneNumber</Form.Label>
+                                    <Form.Label>Phone Number</Form.Label>
                                     <Form.Control
                                         type="number"
                                         name="phoneNumber"
@@ -111,9 +116,6 @@ function BookingLessonPage({ onSubmit }) {
                                         required
                                     />
                                 </Row>
-
-
-
                             </Form.Group>
                             <Button variant="primary mt-2" onClick={handleNext}>
                                 Next
@@ -175,11 +177,29 @@ function BookingLessonPage({ onSubmit }) {
                 </Form>
             ) : (
                 <div>
-                    <h3>Thank you for your submission!</h3>
+                    <h3>Your Lesson Has Been Booked!</h3>
+                    <p>Your booking number is: {bookingNumber}</p>
+                    <h4>Submitted Information:</h4>
+                    <p><strong>Lesson Package:</strong> {submittedData.pkgLesson}</p>
+                    <p><strong>First Name:</strong> {submittedData.firstName}</p>
+                    <p><strong>Last Name:</strong> {submittedData.lastName}</p>
+                    <p><strong>Email:</strong> {submittedData.email}</p>
+                    <p><strong>Phone Number:</strong> {submittedData.phoneNumber}</p>
+                    <p><strong>Require Equipment:</strong> {submittedData.requireEquipment}</p>
+                    {submittedData.requireEquipment === 'yes' && (
+                        <div>
+                            <p><strong>Equipment Needed:</strong></p>
+                            <ul>
+                                {submittedData.equipment.golfClubs && <li>Golf Clubs</li>}
+                                {submittedData.equipment.tees && <li>Tees</li>}
+                                {submittedData.equipment.balls && <li>Balls</li>}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             )}
         </Container>
     );
-};
+}
 
-export default BookingLessonPage;
+export default BookingForm;

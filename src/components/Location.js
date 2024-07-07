@@ -12,22 +12,17 @@ export const Location = () => {
                 </div>
 
                 <div className="col-md-4 border bg-light hours">
-                    <div className="contact-details">
+                    <div className="text-center">
+                        <h1 > Contact Us </h1>
+                    </div>
+                    <div className="contact-details center-text">
 
-                        <h1 className="center-text"> Contact Us</h1>
-                        <h4 className="left-align">Address: 6357 Emerald Links Drive</h4>
-                        <h4 className="left-align">Opening Hours:</h4>
-                        <ul className="left-align">
-                            <li>Monday: 8:00 AM - 6:00 PM</li>
-                            <li>Tuesday: 8:00 AM - 6:00 PM</li>
-                            <li>Wednesday: 8:00 AM - 6:00 PM</li>
-                            <li>Thursday: 8:00 AM - 6:00 PM</li>
-                            <li>Friday: 8:00 AM - 6:00 PM</li>
-                            <li>Saturday: 9:00 AM - 5:00 PM</li>
-                            <li>Sunday: Appointment Only</li>
-                        </ul>
-                        <h4 className="left-align">Phone Number: 613-456-7890</h4>
-                        <h4 className="left-align">Email: KentPhysioAndHealth@gmail.com</h4>
+
+                        <h4 className="left-align mt-5">Address: 6357 Emerald Links Drive</h4>
+                        <h4 className="left-align mt-5">Opening Hours:</h4>
+                        <h5>Everyday: 6:30am - 10:00pm </h5>
+                        <h4 className="left-align mt-5">Phone Number: 613-456-7890</h4>
+                        <h4 className="left-align mt-5">Email: KentPhysioAndHealth@gmail.com</h4>
                     </div>
                 </div>
             </div>
