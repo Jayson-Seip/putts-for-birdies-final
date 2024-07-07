@@ -13,6 +13,11 @@ const ReviewForm = ({ isOpen, onClose, onSubmit }) => {
         onSubmit({ name, rating, comment }); // Pass form data to parent component
         setIsSubmitted(true); // Update state to indicate submission
     };
+    const handleClose = () => {
+        handleResetForm()
+        setIsSubmitted(false)
+        onClose()
+    };
 
     const handleResetForm = () => {
         setName('');
@@ -20,11 +25,10 @@ const ReviewForm = ({ isOpen, onClose, onSubmit }) => {
         setType('');
         setComment('');
         setIsSubmitted(false);
-        onClose(); // Close the modal after resetting
     };
 
     return (
-        <Modal show={isOpen} onHide={onClose}>
+        <Modal show={isOpen} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{isSubmitted ? 'Thank You for Your Review!' : 'Leave a Review'}</Modal.Title>
             </Modal.Header>
