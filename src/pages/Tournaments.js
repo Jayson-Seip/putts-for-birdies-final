@@ -40,8 +40,10 @@ function Tournament() {
     };
     return (
 
-        <Container >
-            <h1>Tournaments</h1>
+        <Container>
+            <Container className="text-header">
+                <h1>Tournament</h1>
+            </Container>
             <h4> Putts For Birides is Proud to offer several types of Tournaments</h4>
             <Row className="mt-4">
                 {tournamentTypes.map((pkg, index) => (

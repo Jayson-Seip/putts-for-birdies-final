@@ -14,9 +14,9 @@ function SummerCamp() {
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center">
                     <div className="Tournament-Info">
-                        <h1>Summer Camps</h1>
+                        <Container className="text-header"><h1>Summer Camp</h1></Container>
                         <p>Our summer camps are designed to cater to young golfers of all skill levels, from beginners to advanced players. Led by experienced instructors, our camps focus on developing golf skills, sportsmanship, and a love for the game.</p>
-                        <Button onClick={handleButtonClick}>More Infomation</Button>
+                        <Button className="info-button" onClick={handleButtonClick}>More Infomation</Button>
                     </div>
                 </Col>
 

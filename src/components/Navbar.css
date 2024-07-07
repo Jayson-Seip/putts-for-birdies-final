@@ -1,3 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .Site-Name {
     font-size: 28px;
+    color: white;
+}
+
+.Nav {
+    background-color: seagreen;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    box-sizing: border-box;
+
+}
+
+.nav-link {
+    color: white;
 }

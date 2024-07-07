@@ -14,9 +14,10 @@ function Tournaments() {
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center">
                     <div className="Tournament-Info">
-                        <h1>Tournaments</h1>
+                        <Container className="text-header"><h1>Tournaments</h1></Container>
+
                         <p>At Putts For Birdies, we host a variety of exciting golf tournaments throughout the year, catering to all skill levels. Our tournaments are designed to provide a competitive yet enjoyable experience for all participants. Whether you're a seasoned golfer or just starting out, our tournaments offer the perfect opportunity to showcase your skills, meet fellow golf enthusiasts, and enjoy the beautiful course.</p>
-                        <Button onClick={handleButtonClick}>More Infomation</Button>
+                        <Button className="info-button" onClick={handleButtonClick}>More Infomation</Button>
                     </div>
                 </Col>
 

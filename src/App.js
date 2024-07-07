@@ -65,7 +65,7 @@ function App() {
                 <AboutUs />
                 <Facilities />
 
-                <Container className="Service-Heading mt-4">
+                <Container className="text-header mt-4">
                   <h1>Services Offered</h1>
                 </Container>
                 <Tournaments />

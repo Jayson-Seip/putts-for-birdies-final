@@ -8,8 +8,8 @@ import './Navbar.css'
 function navbar({ handleSignInClick, handleReviewClick }) {
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-            <Container fluid className="Nav">
+        <Navbar expand="lg" className="Nav">
+            <Container fluid>
                 <Navbar.Brand href="/" className="Site-Name">
                     Putts For Birdies
                 </Navbar.Brand>
@@ -18,7 +18,7 @@ function navbar({ handleSignInClick, handleReviewClick }) {
                     <Nav className="ms-auto">
                         <Link to="/" className="nav-link">Our Facilities</Link>
                         <Link to="/services" className="nav-link">Our Services</Link>
-                        <Link to="/location" className="nav-link">Location</Link>
+                        <Link to="/" className="nav-link">Location</Link>
                         <Link to="/WeeklySchedule" className="nav-link">Weekly Calendar</Link>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
                             Sign-in

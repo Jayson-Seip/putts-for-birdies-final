@@ -17,7 +17,7 @@ function Facilities() {
     };
     return (
         <Container fluid className="facilities mt-4">
-            <Container className="header">
+            <Container className="text-header">
                 <h1> Our Facilites</h1>
             </Container>
             <Row className="facilities-grid mt-4">
@@ -25,19 +25,19 @@ function Facilities() {
                     <Image src="images\golfcourse.jpg" className="facility-image" />
                     <h2>Golf Courses</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels.</p>
-                    <Button onClick={handleCourseButtonClick}>More Information</Button>
+                    <Button className="info-button" onClick={handleCourseButtonClick}>More Information</Button>
                 </Col>
                 <Col sm={4}>
                     <Image src="\images\Driving-Range.jpg" className="facility-image" />
                     <h2>Driving Range</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels.</p>
-                    <Button onClick={handleDrivingRangeButtonClick}>More Information</Button>
+                    <Button className="info-button" onClick={handleDrivingRangeButtonClick}>More Information</Button>
                 </Col>
                 <Col sm={4}>
                     <Image src="images\PuttingGreen.jpg" className="facility-image" />
                     <h2>Putting/Chipping Green</h2>
                     <p>Explore three distinct courses offering varied challenges and stunning vistas for golfers of all levels..</p>
-                    <Button onClick={handlePuttingButtonClick}>More Information</Button>
+                    <Button className="info-button" onClick={handlePuttingButtonClick}>More Information</Button>
                 </Col>
             </Row>
         </Container>

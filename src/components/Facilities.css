@@ -1,7 +1,7 @@
 .facilities {
     padding-top: 15px;
     padding-bottom: 20px;
-    background-color: rgb(243, 237, 237);
+
 }
 
 .facility-image {
@@ -10,4 +10,13 @@
     object-fit: cover;
     margin-bottom: 10px;
     padding-top: 15px;
+}
+
+.info-button {
+    background-color: white;
+    color: rgb(245, 209, 4);
+    border: none;
+    /* Remove default border */
+    outline: none;
+    /* Remove default outline */
 }
