@@ -22,7 +22,7 @@ export const Location = () => {
                         <h4 className="left-align mt-5">Opening Hours:</h4>
                         <h5>Everyday: 6:30am - 10:00pm </h5>
                         <h4 className="left-align mt-5">Phone Number: 613-456-7890</h4>
-                        <h4 className="left-align mt-5">Email: KentPhysioAndHealth@gmail.com</h4>
+                        <h4 className="left-align mt-5">Email: PuttsForBirdies@gmail.com</h4>
                     </div>
                 </div>
             </div>
