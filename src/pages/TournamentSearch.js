@@ -21,6 +21,8 @@ function TournamentSearch() {
     const [selectedMinPrice, setSelectedMinPrice] = useState('');
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [showBookingModal, setShowBookingModal] = useState(false)
+    const [selectedTournament, setSelectedTournament] = useState(null);
+
 
     // Functions to handle the change in the facted search
     const handleCategoryChange = (category) => {
@@ -71,12 +73,14 @@ function TournamentSearch() {
         );
     });
 
-    const openBookingModal = () => {
+    const openBookingModal = (tournament) => {
+        setSelectedTournament(tournament);
         setShowBookingModal(true);
     };
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
+        setSelectedTournament(null);
     };
 
     return (
@@ -146,9 +150,8 @@ function TournamentSearch() {
                                             <p>Time: {item.time}</p>
                                             <p>Price: ${item.price}</p>
                                         </Container>
-                                        <Button className="book mb-3" onClick={openBookingModal} >Book a Spot</Button>
-
-
+                                        {console.log(item)}
+                                        <Button className="book mb-3" onClick={() => openBookingModal(item)} >Book a Spot</Button>
                                     </div>
                                 </Col>
                             ))}
@@ -161,7 +164,7 @@ function TournamentSearch() {
                     <Modal.Title>Book Tournament</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <BookingTournamentPage onClose={closeBookingModal} tournaments={tournaments} />
+                    <BookingTournamentPage onClose={closeBookingModal} tournament={selectedTournament} />
                 </Modal.Body>
             </Modal>
         </Container >

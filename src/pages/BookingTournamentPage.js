@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
-import { tournaments } from '../components/TournamentData'; // Import the tournament data
+import { tournaments } from '../components/TournamentData';
+import './BookingTournamentPage.css';
 
-function generateHalfHourOptions() {
+function generateMinuteOptions() {
     let options = [];
     for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
+        for (let minute = 0; minute < 60; minute++) {
             const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-            options.push(
-                <option key={time} value={time}>
-                    {time}
-                </option>
-            );
+            options.push(<option key={time} value={time}>{time}</option>);
         }
     }
     return options;
 }
 
-const BookingTournamentPage = () => {
+const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+};
+
+const validatePhoneNumber = (phoneNumber) => {
+    const re = /^\d{10}$/; // Example: 10 digit phone number
+    return re.test(String(phoneNumber));
+};
+
+const validateName = (name) => {
+    return name.trim() !== '';
+};
+
+const BookingTournamentPage = ({ tournament, onClose }) => {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -25,19 +36,39 @@ const BookingTournamentPage = () => {
         lastName: '',
         email: '',
         phoneNumber: '',
-        tournamentName: tournaments.length > 0 ? tournaments[0].name : '',
+        tournamentName: tournament ? tournament.name : (tournaments.length > 0 ? tournaments[0].name : ''),
         requireEquipment: 'no',
         equipment: {
             golfClubs: false,
             tees: false,
             balls: false,
         },
-        startDate: '', // Updated field for date input
-        startTime: '', // Updated field for start time input
+        startDate: tournament ? tournament.date : '', // Updated field for date input
+        startTime: tournament ? tournament.time : '', // Updated field for start time input
         selectedDay: '', // New field to store the selected day of the week
+        isFirstNameValid: false,
+        isLastNameValid: false,
+        isEmailValid: false,
+        isPhoneNumberValid: false,
     });
     const [submittedData, setSubmittedData] = useState(null);
     const [bookingNumber, setBookingNumber] = useState(null);
+    console.log(tournament);
+
+    useEffect(() => {
+        if (tournament) {
+            const selectedDate = new Date(tournament.date);
+            selectedDate.setUTCHours(12); // Ensure date is set to noon UTC to avoid timezone issues
+            const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+            setFormData(prevData => ({
+                ...prevData,
+                tournamentName: tournament.name,
+                startDate: tournament.date,
+                startTime: tournament.time,
+                selectedDay
+            }));
+        }
+    }, [tournament]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -67,6 +98,8 @@ const BookingTournamentPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+
         const bookingData = {
             id: new Date().getTime(), // Unique ID for the booking
             firstName: formData.firstName,
@@ -81,20 +114,36 @@ const BookingTournamentPage = () => {
             selectedDay: formData.selectedDay,
         };
 
-        const userBookings = JSON.parse(localStorage.getItem('userBookings')) || {};
-        const updatedBookings = {
-            ...userBookings,
-            [bookingData.id]: bookingData,
-        };
-        localStorage.setItem('userBookings', JSON.stringify(updatedBookings));
-
         setSubmittedData(bookingData);
         setBookingNumber(bookingData.id);
         setSubmitted(true);
     };
 
     const handleNext = () => {
-        setStep(step + 1);
+
+        const isFirstNameValid = validateName(formData.firstName);
+        const isLastNameValid = validateName(formData.lastName);
+        const isEmailValid = validateEmail(formData.email);
+        const isPhoneNumberValid = validatePhoneNumber(formData.phoneNumber);
+
+        if (isFirstNameValid && isLastNameValid && isEmailValid && isPhoneNumberValid) {
+            setFormData((prevData) => ({
+                ...prevData,
+                isFirstNameValid,
+                isLastNameValid,
+                isEmailValid,
+                isPhoneNumberValid,
+            }
+
+            ));
+            setStep(step + 1);
+
+
+        };
+    };
+
+    const handleBack = () => {
+        setStep(step - 1);
     };
 
     const calculateProgress = () => {
@@ -106,7 +155,7 @@ const BookingTournamentPage = () => {
         <Container>
             {!submitted ? (
                 <Form onSubmit={handleSubmit}>
-                    <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
+                    <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} variant="success" />
                     {step === 1 && (
                         <div>
                             <Form.Group controlId="tournament-select">
@@ -134,7 +183,11 @@ const BookingTournamentPage = () => {
                                             value={formData.firstName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.firstName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your first name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Last Name</Form.Label>
@@ -144,7 +197,11 @@ const BookingTournamentPage = () => {
                                             value={formData.lastName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.lastName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your last name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
@@ -156,7 +213,11 @@ const BookingTournamentPage = () => {
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateEmail(formData.email)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid email address.
+                                        </Form.Control.Feedback>
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Phone Number</Form.Label>
@@ -166,7 +227,11 @@ const BookingTournamentPage = () => {
                                             value={formData.phoneNumber}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validatePhoneNumber(formData.phoneNumber)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid 10-digit phone number.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
@@ -190,7 +255,7 @@ const BookingTournamentPage = () => {
                                             required
                                         >
                                             <option value="">Select Time</option>
-                                            {generateHalfHourOptions()}
+                                            {generateMinuteOptions()}
                                         </Form.Control>
                                     </Col>
                                 </Row>
@@ -258,9 +323,18 @@ const BookingTournamentPage = () => {
                                     />
                                 </Form.Group>
                             )}
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
+                            <Row>
+                                <Col sm={6}>
+                                    <Button variant="secondary" onClick={handleBack} className="mr-2">
+                                        Back
+                                    </Button>
+                                </Col>
+                                <Col sm={6} className="text-right">
+                                    <Button variant="primary" type="submit">
+                                        Submit
+                                    </Button>
+                                </Col>
+                            </Row>
                         </div>
                     )}
                 </Form>
