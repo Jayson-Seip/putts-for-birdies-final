@@ -10,6 +10,15 @@
     display: contents;
 }
 
+.date-btn {
+    background-color: seagreen;
+}
+
+.time-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .row-t {
     display: contents;
 }
@@ -20,7 +29,6 @@
     text-align: center;
 }
 
-.time-header,
 .day-header {
     background-color: #ccc;
     font-weight: bold;
@@ -32,4 +40,23 @@
 
 .booked {
     background-color: #99c2ff;
+}
+
+/* New styles for aligning buttons and time inputs */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.row>.col {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row>.col>.form-group {
+    margin: 0;
+    width: 100%;
 }
