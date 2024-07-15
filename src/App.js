@@ -26,8 +26,10 @@ import ReviewForm from './components/ReviewForm';
 import WeeklySchedulePage from './pages/WeeklySchedule';
 import { Location } from './components/Location';
 import TeeTimeSearch from './pages/TeeTimeSearch';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -67,8 +69,8 @@ function App() {
                 <Facilities />
 
                 <Container className="text-header mt-4">
-                  <h1>Services Offered</h1>
-                  <h5> we offer 3 Services desinged to make your golfing experence memorable </h5>
+                  <h1>{t('servicesOffered')}</h1>
+                  <h5>{t('servicesOfferedText')}</h5>
                 </Container>
                 <Tournaments />
                 <Lesson />

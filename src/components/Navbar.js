@@ -1,53 +1,57 @@
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './Navbar.css'
+import './Navbar.css';
+import { useTranslation } from 'react-i18next';
 
-
-function navbar({ handleSignInClick, handleReviewClick }) {
+function NavbarComponent({ handleSignInClick, handleReviewClick }) {
+    const { t, i18n } = useTranslation();
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang);
+    };
 
     return (
         <Navbar expand="lg" className="Nav">
             <Container fluid>
                 <Link to="/" className="Site-Name">
-                    Putts For Birdies
+                    {t('Putts For Birdies')}
                 </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <NavDropdown title="Our Facilities" id="facilities-dropdown">
+                        <NavDropdown title={t('OurFacilities')} id="facilities-dropdown">
                             <NavDropdown.Item as={Link} to="/Golf-Courses">
-                                Golf Courses
+                                {t('golfCourses')}
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/Driving-Range">
-                                Driving Range
+                                {t('DrivingRange')}
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/Putting-Green">
-                                Putting/Chipping Green
+                                {t('PuttingChippingGreen')}
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <NavDropdown title="Our Services" id="services-dropdown">
+                        <NavDropdown title={t('OurServices')} id="services-dropdown">
                             <NavDropdown.Item as={Link} to="/tournaments">
-                                Tournaments
+                                {t('Tournaments')}
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/lessons">
-                                Lessons
+                                {t('Lessons')}
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/SummerCamp">
-                                Summer Camp
+                                {t('Summer Camp')}
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Link to="/WeeklySchedule" className="nav-link">Weekly Calendar</Link>
+                        <Link to="/WeeklySchedule" className="nav-link">{t('WeeklyCalendar')}</Link>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
-                            Sign-in
+                            {t('signIn')}
                         </Nav.Link>
-                        <Nav.Link className="nav-link" onClick={handleReviewClick}>Leave a Review</Nav.Link>
+                        <Nav.Link className="nav-link" onClick={handleReviewClick}>{t('review')}</Nav.Link>
+                        <Button variant="outline-primary" onClick={() => changeLanguage('en')} className="nav-link">EN</Button>
+                        <Button variant="outline-primary" onClick={() => changeLanguage('fr')} className="nav-link">FR</Button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-
-
         </Navbar>
     );
 };
 
-export default navbar
+export default NavbarComponent;

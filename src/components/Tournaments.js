@@ -1,11 +1,15 @@
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import './Tournaments.css'
+import { useTranslation } from 'react-i18next';
+
 function Tournaments() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const handleButtonClick = () => {
         navigate('/tournaments');
     };
+
     return (
         <Container className="tournament-container mt-5">
             <Row>
@@ -14,10 +18,10 @@ function Tournaments() {
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center">
                     <div className="Tournament-Info">
-                        <Container className="text-header"><h1>Tournaments</h1></Container>
+                        <Container className="text-header"><h1>{t('tournaments')}</h1></Container>
 
-                        <p>At Putts For Birdies, we host a variety of exciting golf tournaments throughout the year, catering to all skill levels. Our tournaments are designed to provide a competitive yet enjoyable experience for all participants. Whether you're a seasoned golfer or just starting out, our tournaments offer the perfect opportunity to showcase your skills, meet fellow golf enthusiasts, and enjoy the beautiful course.</p>
-                        <Button className="info-button" onClick={handleButtonClick}>More Infomation</Button>
+                        <p>{t('tournamentsText')}</p>
+                        <Button className="info-button" onClick={handleButtonClick}>{t('moreInformation')}</Button>
                     </div>
                 </Col>
 

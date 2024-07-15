@@ -1,7 +1,10 @@
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./SummerCamp.css"
+import { useTranslation } from 'react-i18next';
+
 function SummerCamp() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const handleButtonClick = () => {
         navigate('/SummerCamp');
@@ -14,9 +17,9 @@ function SummerCamp() {
                 </Col>
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center">
                     <div className="Tournament-Info">
-                        <Container className="text-header"><h1>Summer Camp</h1></Container>
-                        <p>Our summer camps are designed to cater to young golfers of all skill levels, from beginners to advanced players. Led by experienced instructors, our camps focus on developing golf skills, sportsmanship, and a love for the game.</p>
-                        <Button className="info-button" onClick={handleButtonClick}>More Infomation</Button>
+                        <Container className="text-header"><h1>{t('summerCamp')}</h1></Container>
+                        <p>{t('summerCampText')}</p>
+                        <Button className="info-button" onClick={handleButtonClick}>{t('moreInformation')}</Button>
                     </div>
                 </Col>
 

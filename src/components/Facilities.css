@@ -12,6 +12,10 @@
     padding-top: 15px;
 }
 
+.facility-description {
+    min-height: 75px;
+}
+
 .info-button {
     background-color: white;
     color: gold;
