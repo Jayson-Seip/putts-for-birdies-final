@@ -7,7 +7,6 @@ const CampCategories = ['Junior', 'Senior', 'Family'];
 const AgeGroups = ['7-13', '14-18', 'Any'];
 const SkillLevels = ['Beginner', 'Intermediate', 'Advanced'];
 
-
 function SummerCampSearch() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedAgeGroup, setSelectedAgeGroup] = useState([]);
@@ -15,10 +14,10 @@ function SummerCampSearch() {
     const [selectedMinPrice, setSelectedMinPrice] = useState('');
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [selectedSkillLevel, setSelectedSkillLevel] = useState('');
-
+    const [selectedCamp, setSelectedCamp] = useState(null);
     const [showBookingModal, setShowBookingModal] = useState(false);
 
-    // Functions to handle the change in the facted search
+    // Functions to handle the change in the faceted search
     const handleCategoryChange = (category) => {
         setSelectedCategories((prev) =>
             prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
@@ -28,9 +27,9 @@ function SummerCampSearch() {
     const handleAgeGroupChange = (ageGroup) => {
         setSelectedAgeGroup((prev) => {
             if (ageGroup === 'Any') {
-                return '';
+                return [];
             } else {
-                return prev === ageGroup ? '' : ageGroup;
+                return prev.includes(ageGroup) ? prev.filter((ag) => ag !== ageGroup) : [...prev, ageGroup];
             }
         });
     };
@@ -60,16 +59,19 @@ function SummerCampSearch() {
             (selectedWeekday === '' || item.weekday === selectedWeekday) &&
             (selectedMinPrice === '' || Number(item.price) >= Number(selectedMinPrice)) &&
             (selectedMaxPrice === '' || Number(item.price) <= Number(selectedMaxPrice)) &&
-            (selectedSkillLevel === '' || selectedSkillLevel.includes(item.skillLevel))
+            (selectedSkillLevel.length === 0 || selectedSkillLevel.includes(item.skillLevel))
         );
     });
 
-    const openBookingModal = () => {
+    const openBookingModal = (camp) => {
+        setSelectedCamp(null);
+        setSelectedCamp(camp);
         setShowBookingModal(true);
     };
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
+        //setSelectedCamp(null);
     };
 
     return (
@@ -78,7 +80,7 @@ function SummerCampSearch() {
 
             <Form>
                 <Row className="mt-4">
-                    <Col md={2} className=' facted-search border'>
+                    <Col md={2} className='facted-search border'>
                         <Form.Label className="title">Camp Category</Form.Label>
                         {CampCategories.map((category, index) => (
                             <Form.Check
@@ -125,8 +127,6 @@ function SummerCampSearch() {
                         <Form.Control type="number" value={selectedMinPrice} onChange={handleMinPriceChange} />
                         <Form.Label className="title mt-4">Max Price</Form.Label>
                         <Form.Control type="number" value={selectedMaxPrice} onChange={handleMaxPriceChange} />
-
-
                     </Col>
                     <Col md={10}>
                         <Row className="mt-4 summer-camps">
@@ -141,7 +141,7 @@ function SummerCampSearch() {
                                             <p>Price: ${item.price}</p>
                                             <p>Skill Level: {item.skillLevel}</p>
                                         </Container>
-                                        <Button className="book mb-3" onClick={openBookingModal}>
+                                        <Button className="book mb-3" onClick={() => openBookingModal(item)}>
                                             Book a Spot
                                         </Button>
                                     </div>
@@ -153,10 +153,11 @@ function SummerCampSearch() {
             </Form>
             <Modal show={showBookingModal} onHide={closeBookingModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Book Summer Camp</Modal.Title>
+                    <Modal.Title>Book a Summer Camp</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <BookingSummerCamp onClose={closeBookingModal}></BookingSummerCamp>
+                    <BookingSummerCamp onClose={closeBookingModal} camp={selectedCamp}></BookingSummerCamp>
+
                 </Modal.Body>
             </Modal>
         </Container>

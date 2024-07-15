@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { format, addDays, startOfWeek } from "date-fns";
-import { Button, Form, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import "./WeeklySchedule.css"; // Make sure to link your CSS file here
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const WeeklySchedule = () => {
     const [bookings, setBookings] = useState({}); // State for storing bookings
-    const [timeRange, setTimeRange] = useState({ start: "06:30", end: "22:00" });
+    const [timeRange] = useState({ start: "06:30", end: "22:00" });
     const [currentWeek, setCurrentWeek] = useState(0);
 
     useEffect(() => {
-        // Generate dates for the current week
-        const currentDate = new Date();
-        const startDate = startOfWeek(currentDate, { weekStartsOn: 0 });
 
         // Hardcoded bookings data with date property
         const hardcodedBookings = {

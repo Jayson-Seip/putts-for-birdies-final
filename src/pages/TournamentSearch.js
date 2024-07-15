@@ -8,7 +8,6 @@ import { tournaments } from '../components/TournamentData.js';
 
 const TournamentType = ['Charity', 'Junior', 'Senior', 'Stroke Play', 'Scramble', 'Night Golf'];
 const Levels = ['Beginner', 'Intermediate', 'Advance'];
-// Mock Data
 
 
 

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
 import { summerCamps } from '../components/SummerCampData';
 
-function BookingSummerCamp({ onSubmit }) {
+function BookingSummerCamp({ onSubmit, camp }) {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -13,11 +13,20 @@ function BookingSummerCamp({ onSubmit }) {
         childFirstName: '',
         childLastName: '',
         childAge: '',
-        campPackage: summerCamps.length > 0 ? summerCamps[0].title : '',
+        campPackage: camp ? camp.name : (summerCamps.length > 0 ? summerCamps[0].name : ''),
         requireEquipment: 'no',
         equipment: {}
     });
     const [bookingNumber, setBookingNumber] = useState(null); // State to store booking number
+
+    useEffect(() => {
+        if (camp) {
+            setFormData(prevState => ({
+                ...prevState,
+                campPackage: camp.name
+            }));
+        }
+    }, [camp]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -55,13 +64,29 @@ function BookingSummerCamp({ onSubmit }) {
         }
     };
 
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validatePhoneNumber = (phoneNumber) => {
+        const re = /^\d{10}$/; // Example: 10 digit phone number
+        return re.test(String(phoneNumber));
+    };
+
+    const validateName = (name) => {
+        return name.trim() !== '';
+    };
+
     const generateBookingId = () => {
         // Replace with your logic to generate a unique ID (e.g., timestamp-based or UUID)
         return new Date().getTime().toString();
     };
 
     const handleNext = () => {
-        setStep(step + 1);
+        if (validateName(formData.parentFirstName) && validateName(formData.parentLastName) && validateEmail(formData.parentEmail) && validatePhoneNumber(formData.parentPhoneNumber) && validateName(formData.childFirstName) && validateName(formData.childLastName)) {
+            setStep(step + 1);
+        }
     };
 
     const calculateProgress = () => {
@@ -79,17 +104,14 @@ function BookingSummerCamp({ onSubmit }) {
                             <Form.Group controlId="camp-select">
                                 <Form.Label>Select a Camp Package</Form.Label>
                                 <Form.Control
-                                    as="select"
+                                    type="text"
                                     name="campPackage"
                                     value={formData.campPackage}
                                     onChange={handleChange}
+                                    readOnly
                                 >
-                                    {summerCamps.map((camp) => (
-                                        <option key={camp.id} value={camp.title}>
-                                            {camp.title}
-                                        </option>
-                                    ))}
                                 </Form.Control>
+
                             </Form.Group>
                             <Form.Group controlId="parent-info">
                                 <Row>
@@ -101,7 +123,11 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.parentFirstName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.parentFirstName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your first name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Parent Last Name</Form.Label>
@@ -111,7 +137,12 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.parentLastName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.parentLastName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your last name.
+                                        </Form.Control.Feedback>
+
                                     </Col>
                                 </Row>
                                 <Row>
@@ -123,7 +154,12 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.parentEmail}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateEmail(formData.parentEmail)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid email.
+                                        </Form.Control.Feedback>
+
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Parent Phone Number</Form.Label>
@@ -133,7 +169,11 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.parentPhoneNumber}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validatePhoneNumber(formData.parentPhoneNumber)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid phone number.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                             </Form.Group>
@@ -147,7 +187,11 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.childFirstName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.childFirstName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your child's first name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Child Last Name</Form.Label>
@@ -157,7 +201,11 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.childLastName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.childLastName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your child's last name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -169,7 +217,11 @@ function BookingSummerCamp({ onSubmit }) {
                                             value={formData.childAge}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.childAge)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your child's age.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                             </Form.Group>

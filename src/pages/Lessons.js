@@ -121,14 +121,18 @@ const convertToEmbedURL = (url) => {
 
 
 function Lesson() {
-    const [showBookingModal, setShowBookingModal] = useState(false)
+    const [showBookingModal, setShowBookingModal] = useState(false);
+    const [selectedLesson, setSelectedLesson] = useState(null);
 
-    const openBookingModal = () => {
+    const openBookingModal = (lesson) => {
+
+        setSelectedLesson(lesson);
         setShowBookingModal(true);
     };
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
+        //setSelectedLesson(null);
     };
 
     return (
@@ -150,7 +154,7 @@ function Lesson() {
                                         ))}
                                     </ul>
                                     <Card.Text className="price">Price: {pkg.price}</Card.Text>
-                                    <Button className="book" onClick={openBookingModal}>Book Now</Button>
+                                    <Button className="book" onClick={() => openBookingModal(pkg)}>Book Now</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -158,10 +162,10 @@ function Lesson() {
                 </Row>
                 <Modal show={showBookingModal} onHide={closeBookingModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Book Tournament</Modal.Title>
+                        <Modal.Title>Book a Lesson</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <BookingLessonPage onClose={closeBookingModal} />
+                        <BookingLessonPage lesson={selectedLesson} />
                     </Modal.Body>
                 </Modal>
             </Container>

@@ -3,16 +3,6 @@ import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap'
 import { tournaments } from '../components/TournamentData';
 import './BookingTournamentPage.css';
 
-function generateMinuteOptions() {
-    let options = [];
-    for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute++) {
-            const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-            options.push(<option key={time} value={time}>{time}</option>);
-        }
-    }
-    return options;
-}
 
 const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,7 +10,7 @@ const validateEmail = (email) => {
 };
 
 const validatePhoneNumber = (phoneNumber) => {
-    const re = /^\d{10}$/; // Example: 10 digit phone number
+    const re = /^\d{10}$/;
     return re.test(String(phoneNumber));
 };
 
@@ -28,7 +18,7 @@ const validateName = (name) => {
     return name.trim() !== '';
 };
 
-const BookingTournamentPage = ({ tournament, onClose }) => {
+const BookingTournamentPage = ({ tournament }) => {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -43,9 +33,9 @@ const BookingTournamentPage = ({ tournament, onClose }) => {
             tees: false,
             balls: false,
         },
-        startDate: tournament ? tournament.date : '', // Updated field for date input
-        startTime: tournament ? tournament.time : '', // Updated field for start time input
-        selectedDay: '', // New field to store the selected day of the week
+        startDate: tournament ? tournament.date : '',
+        startTime: tournament ? tournament.time : '',
+        selectedDay: '',
         isFirstNameValid: false,
         isLastNameValid: false,
         isEmailValid: false,
@@ -161,16 +151,12 @@ const BookingTournamentPage = ({ tournament, onClose }) => {
                             <Form.Group controlId="tournament-select">
                                 <Form.Label>Select a Tournament</Form.Label>
                                 <Form.Control
-                                    as="select"
+                                    type="text"
                                     name="tournamentName"
                                     value={formData.tournamentName}
                                     onChange={handleChange}
+                                    readOnly
                                 >
-                                    {tournaments.map((tournament) => (
-                                        <option key={tournament.id} value={tournament.name}>
-                                            {tournament.name}
-                                        </option>
-                                    ))}
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="personal-info" className="mt-4">
@@ -242,20 +228,18 @@ const BookingTournamentPage = ({ tournament, onClose }) => {
                                             name="startDate"
                                             value={formData.startDate}
                                             onChange={handleChange}
-                                            required
+                                            readOnly
                                         />
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Start Time</Form.Label>
                                         <Form.Control
-                                            as="select"
+                                            type="time"
                                             name="startTime"
                                             value={formData.startTime}
                                             onChange={handleChange}
-                                            required
+                                            readOnly
                                         >
-                                            <option value="">Select Time</option>
-                                            {generateMinuteOptions()}
                                         </Form.Control>
                                     </Col>
                                 </Row>
