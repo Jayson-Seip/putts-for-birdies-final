@@ -1,10 +1,24 @@
 import { Container, Image, Button, Row, Col } from "react-bootstrap";
 import "./PuttingGreen.css"
+import { useNavigate } from 'react-router-dom';
 function PuttingGreen() {
+    const navigate = useNavigate();
     return (
 
         <Container className="lesson-container mt-5">
-            <Row className="RowOne">
+            <Row className="tournament-heading align-items-center" role="banner">
+                <Col xs="auto">
+                    <Button className='back-button' onClick={() => navigate('/')} aria-label="Back to Home Page">
+                        ← Back to Home Page
+                    </Button>
+                </Col>
+                <Col>
+                    <h1>Putting and Chipping Green</h1>
+                </Col>
+                <Col sm={2}></Col>
+
+            </Row>
+            <Row className="RowOne mt-4">
                 <Col sm={5} className="Image order-1 order-md-2">
                     <Image src={process.env.PUBLIC_URL + "/images/PuttingGreen.jpg"} className="custom-image" />
                 </Col>

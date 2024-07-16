@@ -41,10 +41,23 @@ function NavbarComponent({ handleSignInClick, handleReviewClick }) {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Link to="/WeeklySchedule" className="nav-link">{t('WeeklyCalendar')}</Link>
+                        <NavDropdown title={t('Search')} id="search-dropdown">
+                            <NavDropdown.Item as={Link} to="/Tournament-Search">
+                                {t('tournamentSearch')}
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/lessons">
+                                {t('lessonsSearch')}
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/Summer-Camp-Search">
+                                {t('summerCampSearch')}
+                            </NavDropdown.Item>
+                        </NavDropdown>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
                             {t('signIn')}
                         </Nav.Link>
+
                         <Nav.Link className="nav-link" onClick={handleReviewClick}>{t('review')}</Nav.Link>
+
                         <Button variant="outline-primary" onClick={() => changeLanguage('en')} className="nav-link">EN</Button>
                         <Button variant="outline-primary" onClick={() => changeLanguage('fr')} className="nav-link">FR</Button>
                     </Nav>

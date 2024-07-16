@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { format, addDays, startOfWeek } from "date-fns";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import "./WeeklySchedule.css"; // Make sure to link your CSS file here
+import { useNavigate } from 'react-router-dom';
+import { tournaments } from "../components/TournamentData";
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const WeeklySchedule = () => {
+    const navigate = useNavigate();
     const [bookings, setBookings] = useState({}); // State for storing bookings
     const [timeRange] = useState({ start: "06:30", end: "22:00" });
     const [currentWeek, setCurrentWeek] = useState(0);
@@ -57,6 +60,7 @@ const WeeklySchedule = () => {
             ]
         };
         setBookings(hardcodedBookings);
+
 
     }, []);
 
@@ -122,6 +126,20 @@ const WeeklySchedule = () => {
 
     return (
         <Container>
+            <Row className="tournament-heading align-items-center" role="banner">
+                <Col xs="auto">
+                    <Button className='back-button' onClick={() => navigate('/')} aria-label="Back to Home Page">
+                        ← Back to Home Page
+                    </Button>
+                </Col>
+                <Col>
+                    <h1>Weekly Schedule</h1>
+                </Col>
+                <Col sm={2}></Col>
+
+
+            </Row>
+            <h4> List of Up coming Events Hosted by the Club</h4>
             <Row className="time-header">
                 <Col>
                     <Button className="date-btn" onClick={() => changeWeek(-1)}>Previous Week</Button>

@@ -12,3 +12,4 @@ export const tournaments = [
     { id: 11, name: 'Tournament K', category: 'Night Golf', level: 'Intermediate', date: '2024-08-08', time: '22:30', price: '95' },
     { id: 12, name: 'Tournament L', category: 'Charity', level: 'Beginner', date: '2024-09-15', time: '13:00', price: '115' }
 ];
+

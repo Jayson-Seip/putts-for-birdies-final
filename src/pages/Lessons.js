@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Container, Card, Button, Row, Col, Modal } from "react-bootstrap";
 import "./Lessons.css"
 import BookingLessonPage from "./BookLesson.js";
+import { useNavigate } from 'react-router-dom';
+
 export const lessonPackages = [
     {
         id: 1,
@@ -132,13 +134,25 @@ function Lesson() {
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
-        //setSelectedLesson(null);
     };
+
+    const navigate = useNavigate();
 
     return (
         <Container className="lessons-page">
             <Container className="mt-4">
-                <h1 className="green-heading">Lessons</h1>
+                <Row className="tournament-heading align-items-center" role="banner">
+                    <Col xs="auto">
+                        <Button className='back-button' onClick={() => navigate('/')} aria-label="Back to Home Page">
+                            ← Back to Home Page
+                        </Button>
+                    </Col>
+                    <Col>
+                        <h1>Lessons</h1>
+                    </Col>
+                    <Col sm={2}></Col>
+
+                </Row>
                 <h4> Choose from our variaty of packages and for different Skill Levels</h4>
                 <Row>
                     {lessonPackages.map((pkg, index) => (

@@ -1,4 +1,4 @@
-import { Button, Container, Image } from "react-bootstrap";
+import { Button, Container, Image, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import './GolfCourse.css'
 function GolfCourse() {
@@ -7,9 +7,21 @@ function GolfCourse() {
         navigate('/Tee-Time-Search');
     };
     return (
-        <Container fluid className=" golf-course-web  p-0 mt-2">
+        <Container className=" golf-course-web  p-0 mt-2">
+            <Row className="tournament-heading align-items-center" role="banner">
+                <Col xs="auto">
+                    <Button className='back-button' onClick={() => navigate('/')} aria-label="Back to Home Page">
+                        ← Back to Home Page
+                    </Button>
+                </Col>
+                <Col>
+                    <h1> Our Golf Courses</h1>
+                </Col>
+                <Col sm={2}></Col>
+
+            </Row>
             <Container className=" golf-course-info mb-5">
-                <h1> Our Golf Courses</h1>
+
                 <h5> Select from one of our 3 Golf Courses to Play on</h5>
             </Container>
 

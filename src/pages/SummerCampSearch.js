@@ -79,7 +79,7 @@ function SummerCampSearch() {
             <Container className="text-header mt-3"><h1>Search for Summer Camp</h1></Container>
 
             <Form>
-                <Row className="mt-4">
+                <Row className="mt-4 align-items-start">
                     <Col md={2} className='facted-search border'>
                         <Form.Label className="title">Camp Category</Form.Label>
                         {CampCategories.map((category, index) => (

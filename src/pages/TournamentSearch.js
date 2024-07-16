@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
 import './TournamentSearch.css'
 import BookingTournamentPage from './BookingTournamentPage';
 import { tournaments } from '../components/TournamentData.js';
+import { useNavigate } from 'react-router-dom';
 
 
 const TournamentType = ['Charity', 'Junior', 'Senior', 'Stroke Play', 'Scramble', 'Night Golf'];
@@ -21,6 +22,7 @@ function TournamentSearch() {
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [showBookingModal, setShowBookingModal] = useState(false)
     const [selectedTournament, setSelectedTournament] = useState(null);
+    const navigate = useNavigate();
 
 
     // Functions to handle the change in the facted search
@@ -83,16 +85,19 @@ function TournamentSearch() {
     };
 
     return (
-        <Container >
-            <Container className="tournament-heading">
-                <h1>Search for Tournament</h1>
+        <Container>
+            <Container className="tournament-heading d-flex justify-content-between align-items-center">
+                <Button className='back-button' onClick={() => navigate('/tournaments')}>
+                    ← Back to Tournaments Page
+                </Button>
+                <Container>
+                    <h1>Search for Tournament</h1>
+                </Container>
             </Container>
 
             <Form>
-
-                <Row className="mt-4">
-
-                    <Col md={2} className=' facted-search border'>
+                <Row className="mt-4 align-items-start">
+                    <Col md={2} className=' mt-5 facted-search border'>
                         <Form.Label className='title'>Tournament Type</Form.Label>
                         <Container /*Displays the different types of Tournamaners that can be searched */>
                             {TournamentType.map((label, index) => (

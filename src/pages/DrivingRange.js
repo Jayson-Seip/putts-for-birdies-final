@@ -1,8 +1,19 @@
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import "./DrivingRange.css"
+import { useNavigate } from 'react-router-dom';
 function DrivingRange() {
+    const navigate = useNavigate();
     return (
-        <Container fluid className="range-container mt-5">
+        <Container fluid className="range-container">
+            <Row className=" py-5 tournament-heading align-items-center" role="banner">
+                <Col xs="auto">
+                    <Button className='back-button' onClick={() => navigate('/')} aria-label="Back to Home Page">
+                        ← Back to Home Page
+                    </Button>
+                </Col>
+                <Col sm={2}></Col>
+
+            </Row>
             <Row className="Row1">
                 <Col md={6} className=" order-1 order-md-2">
                     <Image src={process.env.PUBLIC_URL + "/images/Driving-Range.jpg"} className="Image-range" />

@@ -26,11 +26,20 @@ function SummerCamp() {
     };
     return (
         <Container>
-            <Container className="text-header"><h1 className="mt-4">Summer Camp</h1></Container>
+            <Row className="tournament-heading align-items-center" role="banner">
+                <Col xs="auto">
+                    <Button className='back-button' onClick={() => navigate('/')} aria-label="Back to Home Page">
+                        ← Back to Home Page
+                    </Button>
+                </Col>
+                <Col>
+                    <h1>Summer Camp</h1>
+                </Col>
+                <Col sm={2}></Col>
+
+            </Row>
             <h3>Summer Camps run Monday to Friday from 8am to 5pm</h3>
             <h5> Offered for All Skill Levels </h5>
-
-
             <Row className="mt-4">
                 {SummerCampPackages.map((pkg, index) => (
                     <Col key={index} md={6} lg={4} className="mb-4">

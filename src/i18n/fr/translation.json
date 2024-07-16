@@ -33,5 +33,9 @@
     "openingHoursText": "Toutes les jours: 6:30 - 22:00",
     "phoneNumber": "Numéro de téléphone: 613-456-7890",
     "email": "Email: PuttsForBirdies@gmail.com",
-    "whereToFindUs": "O nous trouver"
+    "whereToFindUs": "O nous trouver",
+    "search": "Recherche",
+    "lessonsSearch": "Recherche de leçons",
+    "tournamentSearch": "Recherche de tournois",
+    "summerCampSearch": "Recherche de camps d'été"
 }
