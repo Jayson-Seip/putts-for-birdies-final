@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
-import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, ProgressBar, Container, Row, Col, Modal } from 'react-bootstrap';
 import { golfCourses } from '../components/GolfTeeTimeData';
 
-function TeeTimeBook({ onSubmit }) {
+function TeeTimeBook({ teeTime }) {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
+    const [bookingData, setBookingData] = useState([]);
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        teeTimePackage: golfCourses.length > 0 ? golfCourses[0].title : '',
+        teeTimePackage: teeTime ? teeTime.name : (teeTime.length > 0 ? teeTime[0].title : ''),
         numberOfPlayers: 1,
         requireEquipment: 'no',
         requireGolfCart: 'no',
         equipment: {}
     });
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -42,15 +45,69 @@ function TeeTimeBook({ onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitted(true);
-        if (onSubmit) {
-            onSubmit(formData);
+        try {
+            const bookingData = {
+                id: new Date().getTime(),
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phoneNumber: formData.phoneNumber,
+                teeTimePackage: formData.teeTimePackage,
+                numberOfPlayers: formData.numberOfPlayers,
+                requireEquipment: formData.requireEquipment,
+                requireGolfCart: formData.requireGolfCart,
+                equipment: formData.equipment
+            }
+            setBookingData([...bookingData, bookingData]);
+            setSubmitted(true);
         }
+        catch (err) {
+            setError('Sorry, An error occurred while submitting your booking. Please try re-sumbtting your data.<br/><br/> if this persits please contact support@puttsForBirdies.com');
+            setShowErrorModal(true);
+        }
+
+
+    };
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validatePhoneNumber = (phoneNumber) => {
+        const re = /^\d{10}$/;
+        return re.test(String(phoneNumber));
+    };
+
+    const validateName = (name) => {
+        return name.trim() !== '';
+    };
+    const validateNumberOfPlayers = (numberOfPlayers) => {
+        return numberOfPlayers >= 1 && numberOfPlayers <= 4;
     };
 
     const handleNext = () => {
-        setStep(step + 1);
+        const isFirstNameValid = validateName(formData.firstName);
+        const isLastNameValid = validateName(formData.lastName);
+        const isEmailValid = validateEmail(formData.email);
+        const isPhoneNumberValid = validatePhoneNumber(formData.phoneNumber);
+        const isNumberOfPlayersValid = validateNumberOfPlayers(formData.numberOfPlayers);
+
+        if (isFirstNameValid && isLastNameValid && isEmailValid && isPhoneNumberValid && isNumberOfPlayersValid) {
+            setFormData((prevData) => ({
+                ...prevData,
+                isFirstNameValid,
+                isLastNameValid,
+                isEmailValid,
+                isPhoneNumberValid,
+            }));
+            setStep(step + 1);
+        }
     };
+
+    const handleBack = () => {
+        setStep(step - 1);
+    };
+
 
     const calculateProgress = () => {
         const totalSteps = 2;
@@ -61,7 +118,7 @@ function TeeTimeBook({ onSubmit }) {
         <Container>
             {!submitted ? (
                 <Form onSubmit={handleSubmit}>
-                    <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
+                    <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} variant="success" />
                     {step === 1 && (
                         <div>
                             <Form.Group controlId="teeTime-select">
@@ -74,7 +131,6 @@ function TeeTimeBook({ onSubmit }) {
                                 >
                                     <option> 9-Hole Golf Course</option>
                                     <option> 18-Hole Golf Course</option>
-
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="personal-info">
@@ -87,7 +143,11 @@ function TeeTimeBook({ onSubmit }) {
                                             value={formData.firstName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.firstName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a first name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Last Name</Form.Label>
@@ -97,7 +157,11 @@ function TeeTimeBook({ onSubmit }) {
                                             value={formData.lastName}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateName(formData.lastName)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a last name.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -109,17 +173,25 @@ function TeeTimeBook({ onSubmit }) {
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validateEmail(formData.email)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid email address.
+                                        </Form.Control.Feedback>
                                     </Col>
                                     <Col sm={6}>
                                         <Form.Label>Phone Number</Form.Label>
                                         <Form.Control
-                                            type="number"
+                                            type="tel"
                                             name="phoneNumber"
                                             value={formData.phoneNumber}
                                             onChange={handleChange}
                                             required
+                                            isInvalid={!validatePhoneNumber(formData.phoneNumber)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid 10-digit phone number with numbers only.
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -133,11 +205,15 @@ function TeeTimeBook({ onSubmit }) {
                                             required
                                             min={1}
                                             max={4}
+                                            isInvalid={!validateNumberOfPlayers(formData.numberOfPlayers)}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid number of players (min. 1 and max. 4).
+                                        </Form.Control.Feedback>
                                     </Col>
                                 </Row>
                             </Form.Group>
-                            <Button variant="primary mt-2" onClick={handleNext}>
+                            <Button variant="success mt-2" onClick={handleNext}>
                                 Next
                             </Button>
                         </div>
@@ -201,7 +277,10 @@ function TeeTimeBook({ onSubmit }) {
                                     checked={formData.requireGolfCart === 'no'}
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit">
+                            <Button variant="secondary" onClick={handleBack}>
+                                Back
+                            </Button>
+                            <Button variant="success" type="submit" className="ml-2">
                                 Submit
                             </Button>
                         </div>
@@ -212,8 +291,21 @@ function TeeTimeBook({ onSubmit }) {
                     <h3>Thank you for your submission!</h3>
                 </div>
             )}
+            <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <i className="bi bi-exclamation-triangle-fill" style={{ color: 'red' }}></i> Error
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{error}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowErrorModal(false)}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 }
 
-export default TeeTimeBook
+export default TeeTimeBook;

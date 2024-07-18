@@ -101,7 +101,6 @@ const BookingTournamentPage = ({ tournament }) => {
 
         try {
 
-            throw new Error('Simulated error');
             const bookingData = {
                 id: new Date().getTime(), // Unique ID for the booking
                 firstName: formData.firstName,

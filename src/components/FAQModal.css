@@ -1,0 +1,8 @@
+.accordion-button {
+    font-family: 'Roboto', sans-serif;
+    /* Use the same font as the body */
+    font-size: 20px;
+    /* Adjust the font size as needed */
+    font-weight: normal;
+    /* Use the same font weight as the body */
+}

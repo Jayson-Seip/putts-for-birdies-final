@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
-import './TournamentSearch.css'; // Assuming you have custom CSS for styling
+import './TournamentSearch.css';
 import TeeTimeBook from './TeeTimeBook';
-import { golfCourses } from '../components/GolfTeeTimeData'; // Assuming you have imported teeTimes data
+import { golfCourses } from '../components/GolfTeeTimeData';
 
-const TeeTimeTypes = ['9 Hole Course', '18 Hole Course', 'Championship Course']; // Different types of tee-times available
-
+const TeeTimeTypes = ['9 Hole Course', '18 Hole Course', 'Championship Course'];
 function TeeTimeSearch() {
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [selectedDate, setSelectedDate] = useState('');
@@ -14,6 +13,7 @@ function TeeTimeSearch() {
     const [selectedMinPrice, setSelectedMinPrice] = useState('');
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [showBookingModal, setShowBookingModal] = useState(false);
+    const [selectedTeeTime, setSelectedTeeTime] = useState(null);
 
     // Functions to handle the change in the faceted search
     const handleTypeChange = (type) => {
@@ -57,7 +57,8 @@ function TeeTimeSearch() {
         );
     });
 
-    const openTeeTimeBookingModal = () => {
+    const openTeeTimeBookingModal = (item) => {
+        setSelectedTeeTime(item);
         setShowBookingModal(true);
     };
 
@@ -70,9 +71,9 @@ function TeeTimeSearch() {
             <Container className="text-header mt-3"><h1>Search for Tee Times</h1></Container>
 
             <Form>
-                <Row className="mt-4">
-                    <Col md={2} className="faceted-search border">
-                        <Form.Label className="title">Tee Time Types</Form.Label>
+                <Row className="mt-4 align-items-start">
+                    <Col md={2} className=' mt-5 facted-search border'>
+                        <Form.Label className="title mt-4">Tee Time Types</Form.Label>
                         <Container>
                             {TeeTimeTypes.map((name, index) => (
                                 <Form.Check
@@ -113,7 +114,7 @@ function TeeTimeSearch() {
                                             <p>Time: {item.time}</p>
                                             <p>Price: ${item.price}</p>
                                         </Container>
-                                        <Button className="book mb-3" onClick={openTeeTimeBookingModal}>
+                                        <Button className="book mb-3" onClick={() => openTeeTimeBookingModal(item)}>
                                             Book a Tee Time
                                         </Button>
                                     </div>
@@ -128,7 +129,7 @@ function TeeTimeSearch() {
                     <Modal.Title>Book Tee Time</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <TeeTimeBook></TeeTimeBook>
+                    <TeeTimeBook teeTime={selectedTeeTime}></TeeTimeBook>
                 </Modal.Body>
             </Modal>
         </Container>
