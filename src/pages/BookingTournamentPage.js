@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, ProgressBar, Container, Row, Col, Alert, Modal } from 'react-bootstrap';
 import { tournaments } from '../components/TournamentData';
 import './BookingTournamentPage.css';
 
@@ -43,6 +43,9 @@ const BookingTournamentPage = ({ tournament }) => {
     });
     const [submittedData, setSubmittedData] = useState(null);
     const [bookingNumber, setBookingNumber] = useState(null);
+    const [error, setError] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+
     console.log(tournament);
 
     useEffect(() => {
@@ -85,32 +88,45 @@ const BookingTournamentPage = ({ tournament }) => {
             }
         }
     };
+    useEffect(() => {
+        if (error) {
+            console.log('Error state updated:', error);
+            setShowErrorModal(true); // Show the error modal when an error occurs
+        }
+    }, [error]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError(null); // Reset error state
 
+        try {
 
-        const bookingData = {
-            id: new Date().getTime(), // Unique ID for the booking
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            phoneNumber: formData.phoneNumber,
-            tournamentName: formData.tournamentName,
-            requireEquipment: formData.requireEquipment,
-            equipment: { ...formData.equipment },
-            startDate: formData.startDate,
-            startTime: formData.startTime,
-            selectedDay: formData.selectedDay,
-        };
+            throw new Error('Simulated error');
+            const bookingData = {
+                id: new Date().getTime(), // Unique ID for the booking
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phoneNumber: formData.phoneNumber,
+                tournamentName: formData.tournamentName,
+                requireEquipment: formData.requireEquipment,
+                equipment: { ...formData.equipment },
+                startDate: formData.startDate,
+                startTime: formData.startTime,
+                selectedDay: formData.selectedDay,
+            };
 
-        setSubmittedData(bookingData);
-        setBookingNumber(bookingData.id);
-        setSubmitted(true);
+            // Simulate a successful submission
+            setSubmittedData(bookingData);
+            setBookingNumber(bookingData.id);
+            setSubmitted(true);
+        } catch (err) {
+            setError('Sorry, An error occurred while submitting your booking. Please try re-sumbtting your data.<br/><br/> if this persits please contact support@puttsForBirdies.com');
+            setShowErrorModal(true);
+        }
     };
 
     const handleNext = () => {
-
         const isFirstNameValid = validateName(formData.firstName);
         const isLastNameValid = validateName(formData.lastName);
         const isEmailValid = validateEmail(formData.email);
@@ -123,13 +139,9 @@ const BookingTournamentPage = ({ tournament }) => {
                 isLastNameValid,
                 isEmailValid,
                 isPhoneNumberValid,
-            }
-
-            ));
+            }));
             setStep(step + 1);
-
-
-        };
+        }
     };
 
     const handleBack = () => {
@@ -213,10 +225,10 @@ const BookingTournamentPage = ({ tournament }) => {
                                             value={formData.phoneNumber}
                                             onChange={handleChange}
                                             required
-                                            isInvalid={!validatePhoneNumber(formData.phoneNumber)}
+                                            isInvalid={!validatePhoneNumber(formData.phoneNumber) || /\D/.test(formData.phoneNumber)}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Please enter a valid 10-digit phone number.
+                                            Please enter a valid 10-digit phone number with numbers only.
                                         </Form.Control.Feedback>
                                     </Col>
                                 </Row>
@@ -255,7 +267,7 @@ const BookingTournamentPage = ({ tournament }) => {
                                     </Col>
                                 </Row>
                             </Form.Group>
-                            <Button variant="primary mt-2" onClick={handleNext}>
+                            <Button className="book mt-2" onClick={handleNext}>
                                 Next
                             </Button>
                         </div>
@@ -309,12 +321,12 @@ const BookingTournamentPage = ({ tournament }) => {
                             )}
                             <Row>
                                 <Col sm={6}>
-                                    <Button variant="secondary" onClick={handleBack} className="mr-2">
+                                    <Button className='book mt-2' onClick={handleBack}>
                                         Back
                                     </Button>
                                 </Col>
                                 <Col sm={6} className="text-right">
-                                    <Button variant="primary" type="submit">
+                                    <Button className='book mt-2' type="submit">
                                         Submit
                                     </Button>
                                 </Col>
@@ -348,6 +360,24 @@ const BookingTournamentPage = ({ tournament }) => {
                     )}
                 </div>
             )}
+            {/* Error Modal */}
+            <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+
+                        <i className="bi bi-exclamation-triangle-fill" style={{ color: 'red' }}></i> Error
+                    </Modal.Title>
+
+                </Modal.Header>
+                <Modal.Body><div dangerouslySetInnerHTML={{ __html: error }} /></Modal.Body>
+
+                <Modal.Footer>
+                    <Button className='book' variant="secondary" onClick={() => setShowErrorModal(false)}>
+                        Close
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 };

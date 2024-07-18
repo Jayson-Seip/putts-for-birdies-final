@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, ProgressBar, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, ProgressBar, Container, Row, Col, Modal } from 'react-bootstrap';
 import { summerCamps } from '../components/SummerCampData';
 
 function BookingSummerCamp({ onSubmit, camp }) {
+
+    // State Changes 
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,7 +19,11 @@ function BookingSummerCamp({ onSubmit, camp }) {
         requireEquipment: 'no',
         equipment: {}
     });
+
     const [bookingNumber, setBookingNumber] = useState(null); // State to store booking number
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [error, setError] = useState(null);
+
 
     useEffect(() => {
         if (camp) {
@@ -53,14 +59,21 @@ function BookingSummerCamp({ onSubmit, camp }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitted(true);
-        const bookingData = {
-            ...formData,
-            id: generateBookingId(), // Generate a unique booking ID
-        };
-        setBookingNumber(bookingData.id); // Set the booking number
-        if (onSubmit) {
-            onSubmit(bookingData);
+        setError(null);
+        try {
+            setSubmitted(true);
+            const bookingData = {
+                ...formData,
+                id: generateBookingId(), // Generate a unique booking ID
+            };
+            setBookingNumber(bookingData.id); // Set the booking number
+            if (onSubmit) {
+                onSubmit(bookingData);
+            }
+        }
+        catch (error) {
+            setError("Sorry, An error occurred while submitting your booking. Please try re-sumbtting your data.<br/><br/> if this persits please contact support@puttsForBirdies.com");
+            setShowErrorModal(true);
         }
     };
 
@@ -88,6 +101,9 @@ function BookingSummerCamp({ onSubmit, camp }) {
             setStep(step + 1);
         }
     };
+    const handleBack = () => {
+        setStep(step - 1);
+    };
 
     const calculateProgress = () => {
         const totalSteps = 2;
@@ -98,7 +114,7 @@ function BookingSummerCamp({ onSubmit, camp }) {
         <Container>
             {!submitted ? (
                 <Form onSubmit={handleSubmit}>
-                    <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
+                    <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} variant="success" />
                     {step === 1 && (
                         <div>
                             <Form.Group controlId="camp-select">
@@ -225,7 +241,7 @@ function BookingSummerCamp({ onSubmit, camp }) {
                                     </Col>
                                 </Row>
                             </Form.Group>
-                            <Button variant="primary mt-2" onClick={handleNext}>
+                            <Button variant="primary mt-2" className='book' onClick={handleNext}>
                                 Next
                             </Button>
                         </div>
@@ -263,9 +279,18 @@ function BookingSummerCamp({ onSubmit, camp }) {
                                     />
                                 </Form.Group>
                             )}
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
+                            <Row>
+                                <Col sm={6}>
+                                    <Button className='book mt-2' onClick={handleBack}>
+                                        Back
+                                    </Button>
+                                </Col>
+                                <Col sm={6} className="text-right">
+                                    <Button className='book mt-2' type="submit">
+                                        Submit
+                                    </Button>
+                                </Col>
+                            </Row>
                         </div>
                     )}
                 </Form>
@@ -286,6 +311,23 @@ function BookingSummerCamp({ onSubmit, camp }) {
                     )}
                 </div>
             )}
+            <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+
+                        <i className="bi bi-exclamation-triangle-fill" style={{ color: 'red' }}></i> Error
+                    </Modal.Title>
+
+                </Modal.Header>
+                <Modal.Body><div dangerouslySetInnerHTML={{ __html: error }} /></Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowErrorModal(false)}>
+                        Close
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 }

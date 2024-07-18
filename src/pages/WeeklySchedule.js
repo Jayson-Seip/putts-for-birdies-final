@@ -14,60 +14,37 @@ const WeeklySchedule = () => {
     const [currentWeek, setCurrentWeek] = useState(0);
 
     useEffect(() => {
-
-        // Hardcoded bookings data with date property
-        const hardcodedBookings = {
-            "Monday": [
-                {
-                    bookingId: "1",
-                    tournamentName: "Charity Tournament",
-                    startTime: "10:00",
-                    endTime: "12:00",
-                    date: "07/08/2024" // Updated date format to MM/DD/YYYY
-                },
-                {
-                    bookingId: "2",
-                    tournamentName: "Junior Tournament",
-                    startTime: "14:00",
-                    endTime: "16:00",
-                    date: "07/08/2024" // Updated date format to MM/DD/YYYY
-                }
-            ],
-            "Wednesday": [
-                {
-                    bookingId: "3",
-                    tournamentName: "Senior Tournament",
-                    startTime: "09:00",
-                    endTime: "11:00",
-                    date: "07/10/2024" // Updated date format to MM/DD/YYYY
-                }
-            ],
-            "Friday": [
-                {
-                    bookingId: "4",
-                    tournamentName: "Night Golf Tournament",
-                    startTime: "18:00",
-                    endTime: "20:00",
-                    date: "07/12/2024" // Updated date format to MM/DD/YYYY
-                },
-                {
-                    bookingId: "5",
-                    tournamentName: "Weekend Tournament",
-                    startTime: "10:00",
-                    endTime: "12:00",
-                    date: "07/12/2024" // Updated date format to MM/DD/YYYY
-                }
-            ]
-        };
-        setBookings(hardcodedBookings);
-
-
+        // Convert tournaments data to bookings format
+        const bookingsData = tournaments.reduce((acc, tournament) => {
+            const date = new Date(tournament.date);
+            const day = days[date.getDay()];
+            const booking = {
+                bookingId: tournament.id.toString(),
+                tournamentName: tournament.name,
+                startTime: tournament.time,
+                endTime: addHours(tournament.time, 2),
+                date: format(date, 'MM/dd/yyyy')
+            };
+            if (!acc[day]) {
+                acc[day] = [];
+            }
+            acc[day].push(booking);
+            return acc;
+        }, {});
+        setBookings(bookingsData);
     }, []);
+
+    // Helper function to add hours to a time string
+    const addHours = (time, hours) => {
+        const [hour, minute] = time.split(":").map(Number);
+        const newHour = (hour + hours) % 24;
+        return `${String(newHour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+    };
 
     // Generate an array of dates and format them
     const currentDate = new Date();
     const generateDatesArray = (currentWeek) => {
-        const startDate = startOfWeek(addDays(currentDate, currentWeek * 7), { weekStartsOn: 0 })
+        const startDate = startOfWeek(addDays(currentDate, currentWeek * 7), { weekStartsOn: 0 });
         return Array.from({ length: 7 }, (_, index) => {
             const date = addDays(startDate, index);
             return { date, formattedDate: format(date, 'MM/dd/yyyy') }; // Format date as needed
@@ -92,17 +69,15 @@ const WeeklySchedule = () => {
     };
 
     const getBookingsForTimeSlot = (day, date, time) => {
-
         const dayBookings = bookings[day] || [];
         return dayBookings.filter(booking => {
             const bookingStart = parseInt(booking.startTime.split(":")[0], 10);
-            const bookingEnd = booking.endTime ? parseInt(booking.endTime.split(":")[0], 10) : parseInt(booking.startTime.split(":")[0], 10) + 3;
+            const bookingEnd = booking.endTime ? parseInt(booking.endTime.split(":")[0], 10) : parseInt(booking.startTime.split(":")[0], 10) + 2;
             const currentHour = parseInt(time.split(":")[0], 10);
             const bookingDate = new Date(booking.date);
             const providedDate = new Date(date);
             return bookingDate.getTime() === providedDate.getTime() && currentHour >= bookingStart && currentHour < bookingEnd;
         });
-
     };
 
     // Function to render each cell in the weekly schedule grid
@@ -121,7 +96,6 @@ const WeeklySchedule = () => {
                 </div>
             </div>
         );
-
     };
 
     return (
@@ -136,8 +110,6 @@ const WeeklySchedule = () => {
                     <h1>Weekly Schedule</h1>
                 </Col>
                 <Col sm={2}></Col>
-
-
             </Row>
             <h4> List of Up coming Events Hosted by the Club</h4>
             <Row className="time-header">

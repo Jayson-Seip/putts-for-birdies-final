@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, ProgressBar, Row, Col } from 'react-bootstrap';
+import { Container, Form, Button, ProgressBar, Row, Col, Modal } from 'react-bootstrap';
 import { lessonPackages } from './Lessons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -29,7 +29,7 @@ function BookingForm({ lesson }) {
         lastName: '',
         email: '',
         phoneNumber: '',
-        requireEquipment: '',
+        requireEquipment: 'no',
         equipment: {
             golfClubs: false,
             tees: false,
@@ -44,6 +44,8 @@ function BookingForm({ lesson }) {
     });
     const [submittedData, setSubmittedData] = useState(null);
     const [bookingNumber, setBookingNumber] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleNext = () => {
         const isFirstNameValid = validateName(formData.firstName);
@@ -100,9 +102,17 @@ function BookingForm({ lesson }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmittedData(formData);
-        setBookingNumber(Math.floor(Math.random() * 1000000));
-        setSubmitted(true);
+        try {
+            setSubmittedData(formData);
+            setBookingNumber(Math.floor(Math.random() * 1000000));
+            setSubmitted(true);
+        }
+        catch (error) {
+            setError("An error occurred while submitting your booking. Please try again.");
+            setShowErrorModal(true);
+        }
+
+
     };
 
     const calculateProgress = () => {
@@ -176,7 +186,7 @@ function BookingForm({ lesson }) {
                                 <Row>
                                     <Form.Label>Phone Number</Form.Label>
                                     <Form.Control
-                                        type="number"
+                                        type="tel"
                                         name="phoneNumber"
                                         value={formData.phoneNumber}
                                         onChange={handleChange}
@@ -332,6 +342,23 @@ function BookingForm({ lesson }) {
                     <p><strong>Time:</strong> {submittedData.time}</p>
                 </div>
             )}
+            <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+
+                        <i className="bi bi-exclamation-triangle-fill" style={{ color: 'red' }}></i> Error
+                    </Modal.Title>
+
+                </Modal.Header>
+                <Modal.Body>{error}</Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowErrorModal(false)}>
+                        Close
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 }

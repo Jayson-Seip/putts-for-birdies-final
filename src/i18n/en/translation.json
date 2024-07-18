@@ -37,5 +37,8 @@
     "search": "Search",
     "lessonsSearch": "Lessons Search",
     "tournamentSearch": "Tournament Search",
-    "summerCampSearch": "Summer Camp Search"
+    "summerCampSearch": "Summer Camp Search",
+    "TeeTimeSearch": "Tee Time Search",
+    "English": "English",
+    "French": "French"
 }

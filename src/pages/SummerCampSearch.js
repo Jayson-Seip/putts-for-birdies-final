@@ -6,11 +6,12 @@ import { summerCamps } from "../components/SummerCampData";
 const CampCategories = ['Junior', 'Senior', 'Family'];
 const AgeGroups = ['7-13', '14-18', 'Any'];
 const SkillLevels = ['Beginner', 'Intermediate', 'Advanced'];
+const Weeks = [...new Set(summerCamps.map(camp => camp.week))];
 
 function SummerCampSearch() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedAgeGroup, setSelectedAgeGroup] = useState([]);
-    const [selectedWeekday, setSelectedWeekday] = useState('');
+    const [selectedWeek, setSelectedWeek] = useState('');
     const [selectedMinPrice, setSelectedMinPrice] = useState('');
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [selectedSkillLevel, setSelectedSkillLevel] = useState('');
@@ -34,8 +35,8 @@ function SummerCampSearch() {
         });
     };
 
-    const handleWeekdayChange = (e) => {
-        setSelectedWeekday(e.target.value);
+    const handleWeekChange = (e) => {
+        setSelectedWeek(e.target.value);
     };
 
     const handleMinPriceChange = (e) => {
@@ -56,7 +57,7 @@ function SummerCampSearch() {
         return (
             (selectedCategories.length === 0 || selectedCategories.includes(item.category)) &&
             (selectedAgeGroup.length === 0 || selectedAgeGroup.includes(item.ageGroup)) &&
-            (selectedWeekday === '' || item.weekday === selectedWeekday) &&
+            (selectedWeek === '' || item.week === selectedWeek) &&
             (selectedMinPrice === '' || Number(item.price) >= Number(selectedMinPrice)) &&
             (selectedMaxPrice === '' || Number(item.price) <= Number(selectedMaxPrice)) &&
             (selectedSkillLevel.length === 0 || selectedSkillLevel.includes(item.skillLevel))
@@ -114,14 +115,13 @@ function SummerCampSearch() {
                                 checked={selectedSkillLevel.includes(level)}
                             />
                         ))}
-                        <Form.Label className="title mt-4">Weekday</Form.Label>
-                        <Form.Control as="select" value={selectedWeekday} onChange={handleWeekdayChange}>
-                            <option value="">Any</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
+
+                        <Form.Label className='title mt-4'>Week</Form.Label>
+                        <Form.Control as="select" value={selectedWeek} onChange={handleWeekChange}>
+                            <option value="">Select Week</option>
+                            {Weeks.map((week, index) => (
+                                <option key={index} value={week}>{week}</option>
+                            ))}
                         </Form.Control>
                         <Form.Label className="title mt-4">Min Price</Form.Label>
                         <Form.Control type="number" value={selectedMinPrice} onChange={handleMinPriceChange} />
@@ -140,6 +140,7 @@ function SummerCampSearch() {
                                             <p>Weekday: {item.weekday}</p>
                                             <p>Price: ${item.price}</p>
                                             <p>Skill Level: {item.skillLevel}</p>
+                                            <p>Week: {item.week}</p>
                                         </Container>
                                         <Button className="book mb-3" onClick={() => openBookingModal(item)}>
                                             Book a Spot

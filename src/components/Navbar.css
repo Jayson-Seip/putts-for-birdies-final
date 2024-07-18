@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    padding: 0;
+    padding-top: 70px;
 }
 
 .Site-Name {
@@ -8,6 +8,26 @@ body {
     color: white;
     font-family: 'Playfair Display', serif;
     text-decoration: none;
+
+}
+
+.button-link {
+    color: white;
+    background-color: seagreen;
+    text-decoration: none;
+}
+
+.button-link:focus,
+.button-link:active {
+    outline: none;
+    /* Remove blue outline on focus and active */
+}
+
+
+.nav-link:hover {
+    background-color: seagreen;
+    /* Added hover effect */
+    color: black;
 
 }
 
@@ -22,4 +42,11 @@ body {
 
 .nav-link {
     color: white;
+}
+
+.fixed-top {
+    background-color: seagreen;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }

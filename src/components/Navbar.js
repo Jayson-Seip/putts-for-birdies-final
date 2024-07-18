@@ -10,7 +10,7 @@ function NavbarComponent({ handleSignInClick, handleReviewClick }) {
     };
 
     return (
-        <Navbar expand="lg" className="Nav">
+        <Navbar expand="lg" className="fixed-top">
             <Container fluid>
                 <Link to="/" className="Site-Name">
                     {t('Putts For Birdies')}
@@ -51,6 +51,9 @@ function NavbarComponent({ handleSignInClick, handleReviewClick }) {
                             <NavDropdown.Item as={Link} to="/Summer-Camp-Search">
                                 {t('summerCampSearch')}
                             </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/Tee-Time-Search">
+                                {t('TeeTimeSearch')}
+                            </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link className="nav-link" onClick={handleSignInClick}>
                             {t('signIn')}
@@ -58,8 +61,8 @@ function NavbarComponent({ handleSignInClick, handleReviewClick }) {
 
                         <Nav.Link className="nav-link" onClick={handleReviewClick}>{t('review')}</Nav.Link>
 
-                        <Button variant="outline-primary" onClick={() => changeLanguage('en')} className="nav-link">EN</Button>
-                        <Button variant="outline-primary" onClick={() => changeLanguage('fr')} className="nav-link">FR</Button>
+                        <Button variant="outline-primary" onClick={() => changeLanguage('en')} className="nav-link ms-3">{t('English')}</Button>
+                        <Button variant="outline-primary" onClick={() => changeLanguage('fr')} className="nav-link">{t('French')}</Button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
