@@ -43,6 +43,20 @@ function FAQModal({ show, handleClose }) {
                     </Accordion.Item>
 
                     <Accordion.Item eventKey="5">
+                        <Accordion.Header>What is my Skill Level?</Accordion.Header>
+                        <Accordion.Body>
+                            Skill Level is very subjective but here are ways to detemine it:
+                            <br />
+                            <br />
+                            <strong>Beginner</strong>: Played less than 10 tournaments.
+                            <br />
+                            <strong>Intermediate</strong>: Played 10-20 tournaments.
+                            <br />
+                            <strong>Advanced</strong>: Played 20-30 tournaments.
+                        </Accordion.Body>
+                    </Accordion.Item>
+
+                    <Accordion.Item eventKey="6">
                         <Accordion.Header>How do I contact support?</Accordion.Header>
                         <Accordion.Body>
                             You can reach out to our support team at support@example.com.
