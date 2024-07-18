@@ -118,7 +118,7 @@ const BookingTournamentPage = ({ tournament }) => {
                 startTime: formData.startTime,
                 selectedDay: formData.selectedDay,
             };
-            await addDoc(collection(db, 'bookings'), bookingData);
+            await addDoc(collection(db, 'tournamentBookings'), bookingData);
 
             // Simulate a successful submission
             setSubmittedData(bookingData);

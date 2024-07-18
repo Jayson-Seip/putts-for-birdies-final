@@ -18,14 +18,12 @@ const WeeklySchedule = () => {
     const uid = localStorage.getItem('userUID');
     useEffect(() => {
         const fetchBookings = async () => {
-            const q = query(collection(db, "bookings"), where("userUID", "==", uid));
+            const q = query(collection(db, "tournamentBookings"), where("userUID", "==", uid));
             const querySnapshot = await getDocs(q);
             const bookingsData = querySnapshot.docs.reduce((acc, doc) => {
                 const tournament = doc.data();
 
                 const date = parseISO(tournament.startDate);
-                console.log(tournament.startDate);
-                console.log(date);
                 const day = days[date.getDay()];
                 const booking = {
                     bookingId: doc.id,
