@@ -16,20 +16,27 @@ const WeeklySchedule = () => {
     const [timeRange] = useState({ start: "06:30", end: "22:00" });
     const [currentWeek, setCurrentWeek] = useState(0);
     const uid = localStorage.getItem('userUID');
+
     useEffect(() => {
         const fetchBookings = async () => {
-            const q = query(collection(db, "tournamentBookings"), where("userUID", "==", uid));
-            const querySnapshot = await getDocs(q);
-            const bookingsData = querySnapshot.docs.reduce((acc, doc) => {
-                const tournament = doc.data();
+            // Query for tournament bookings
+            const tournamentQuery = query(collection(db, "tournamentBookings"), where("userUID", "==", uid));
+            const tournamentSnapshot = await getDocs(tournamentQuery);
 
-                const date = parseISO(tournament.startDate);
+            // Query for additional bookings
+            const additionalQuery = query(collection(db, "bookings"), where("userUID", "==", uid));
+            const additionalSnapshot = await getDocs(additionalQuery);
+
+            // Merge results
+            const bookingsData = [...tournamentSnapshot.docs, ...additionalSnapshot.docs].reduce((acc, doc) => {
+                const bookingData = doc.data();
+                const date = parseISO(bookingData.startDate);
                 const day = days[date.getDay()];
                 const booking = {
                     bookingId: doc.id,
-                    tournamentName: tournament.tournamentName,
-                    startTime: tournament.startTime,
-                    endTime: addHours(tournament.startTime, 2),
+                    name: bookingData.tournamentName || bookingData.teeTimePackage, // Handle both types of bookings
+                    startTime: bookingData.startTime,
+                    endTime: addHours(bookingData.startTime, 2),
                     date: format(date, 'MM/dd/yyyy')
                 };
                 if (!acc[day]) {
@@ -99,7 +106,7 @@ const WeeklySchedule = () => {
                 <div className="cell-content">
                     {timeSlotBookings.map(booking => (
                         <div key={booking.bookingId} className="booking">
-                            {booking.tournamentName}<br />
+                            {booking.name}<br />
                             ({booking.startTime} - {booking.endTime})<br />
                             {booking.date}
                         </div>
@@ -122,7 +129,7 @@ const WeeklySchedule = () => {
                 </Col>
                 <Col sm={2}></Col>
             </Row>
-            <h4> List of Up coming Events Hosted by the Club</h4>
+            <h4>View tournaments that you are registered in for the week</h4>
             <Row className="time-header">
                 <Col>
                     <Button className="date-btn" onClick={() => changeWeek(-1)}>Previous Week</Button>

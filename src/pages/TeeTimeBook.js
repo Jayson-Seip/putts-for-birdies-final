@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { Form, Button, ProgressBar, Container, Row, Col, Modal } from 'react-bootstrap';
-import { golfCourses } from '../components/GolfTeeTimeData';
+import { db } from '../FirebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
+
 
 function TeeTimeBook({ teeTime }) {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
-    const [bookingData, setBookingData] = useState([]);
+    const UID = localStorage.getItem('userUID');
+    const selectedDate = new Date(teeTime.date);
+    selectedDate.setUTCHours(12); // Ensure date is set to noon UTC to avoid timezone issues
+    const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
         teeTimePackage: teeTime ? teeTime.name : (teeTime.length > 0 ? teeTime[0].title : ''),
+        startDate: teeTime.date,
+        startTime: teeTime.time,
+        dayOfWeek: selectedDay,
         numberOfPlayers: 1,
         requireEquipment: 'no',
         requireGolfCart: 'no',
@@ -19,7 +27,7 @@ function TeeTimeBook({ teeTime }) {
     });
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [error, setError] = useState('');
-
+    console.log(formData.teeTimePackage);
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         if (type === "checkbox") {
@@ -43,7 +51,7 @@ function TeeTimeBook({ teeTime }) {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const bookingData = {
@@ -53,15 +61,20 @@ function TeeTimeBook({ teeTime }) {
                 email: formData.email,
                 phoneNumber: formData.phoneNumber,
                 teeTimePackage: formData.teeTimePackage,
+                startDate: formData.startDate,
+                startTime: formData.startTime,
+                selectedDay: formData.dayOfWeek,
                 numberOfPlayers: formData.numberOfPlayers,
                 requireEquipment: formData.requireEquipment,
                 requireGolfCart: formData.requireGolfCart,
-                equipment: formData.equipment
+                equipment: formData.equipment,
+                userUID: UID
             }
-            setBookingData([...bookingData, bookingData]);
+            await addDoc(collection(db, 'bookings'), bookingData);
             setSubmitted(true);
         }
         catch (err) {
+            console.log(err);
             setError('Sorry, An error occurred while submitting your booking. Please try re-sumbtting your data.<br/><br/> if this persits please contact support@puttsForBirdies.com');
             setShowErrorModal(true);
         }
@@ -124,13 +137,12 @@ function TeeTimeBook({ teeTime }) {
                             <Form.Group controlId="teeTime-select">
                                 <Form.Label>Select a Tee Time Package</Form.Label>
                                 <Form.Control
-                                    as="select"
+                                    type="text"
                                     name="teeTimePackage"
                                     value={formData.teeTimePackage}
                                     onChange={handleChange}
+                                    readOnly
                                 >
-                                    <option> 9-Hole Golf Course</option>
-                                    <option> 18-Hole Golf Course</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="personal-info">
@@ -297,7 +309,7 @@ function TeeTimeBook({ teeTime }) {
                         <i className="bi bi-exclamation-triangle-fill" style={{ color: 'red' }}></i> Error
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{error}</Modal.Body>
+                <Modal.Body dangerouslySetInnerHTML={{ __html: error }} />
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowErrorModal(false)}>
                         Close
