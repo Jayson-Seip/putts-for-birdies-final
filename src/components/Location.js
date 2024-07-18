@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 export const Location = () => {
     const { t } = useTranslation();
     return (
-        <div className="container-fluid mt-5" id="location">
+        <div className="container-fluid" id="location">
             <h1 className="text-center text-header"> {t('whereToFindUs')}</h1>
             <div className="row">
                 <div className="col-md-8">
@@ -13,11 +13,11 @@ export const Location = () => {
 
                 </div>
 
-                <div className="col-md-4 border bg-light hours">
+                <div className="col-md-4 border hours">
                     <div className="text-center">
                         <h1 > {t('contactUs')} </h1>
                     </div>
-                    <div className="contact-details center-text">
+                    <div className=" center-text">
 
 
                         <h4 className="left-align mt-5">{t('address')}</h4>

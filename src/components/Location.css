@@ -9,6 +9,10 @@
 
 .hours {
     text-align: left;
+    background-color: seagreen;
+    color: white;
+    padding-bottom: 30px;
+
 }
 
 .h1 {

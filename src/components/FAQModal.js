@@ -38,7 +38,7 @@ function FAQModal({ show, handleClose }) {
                     <Accordion.Item eventKey="4">
                         <Accordion.Header>How does the Weekly Calander Work?</Accordion.Header>
                         <Accordion.Body>
-                            The calander is a weekly calander that shows tournaments being hosted for a given week.
+                            The calander is a weekly calander that shows tournaments that you are registered in for the week.
                         </Accordion.Body>
                     </Accordion.Item>
 
@@ -55,8 +55,14 @@ function FAQModal({ show, handleClose }) {
                             <strong>Advanced</strong>: Played 20-30 tournaments.
                         </Accordion.Body>
                     </Accordion.Item>
-
                     <Accordion.Item eventKey="6">
+                        <Accordion.Header>How do I pay for my reservation</Accordion.Header>
+                        <Accordion.Body>
+                            Payments can be made upon check-in at the tournament.
+                        </Accordion.Body>
+                    </Accordion.Item>
+
+                    <Accordion.Item eventKey="7">
                         <Accordion.Header>How do I contact support?</Accordion.Header>
                         <Accordion.Body>
                             You can reach out to our support team at support@example.com.

@@ -67,14 +67,15 @@ function App() {
                 <CarouselImg />
                 <AboutUs />
                 <Facilities />
-
-                <Container className="text-header mt-4">
+                <hr style={{ width: '50%', borderWidth: '2px', borderColor: 'seagreen', marginTop: '50px', marginLeft: 'auto', marginRight: 'auto' }} />
+                <Container className="text-header">
                   <h1>{t('servicesOffered')}</h1>
                   <h5>{t('servicesOfferedText')}</h5>
                 </Container>
                 <Tournaments />
                 <Lesson />
                 <SummerCamp />
+                <hr style={{ width: '50%', borderWidth: '2px', borderColor: 'seagreen', marginTop: '75px', marginLeft: 'auto', marginRight: 'auto' }} />
                 <Location />
               </>
             }
