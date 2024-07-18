@@ -1,51 +1,45 @@
 import React, { useState } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../FirebaseConfig'; // Import Firebase auth
 import SignUp from './SignUp'; // Import the SignupModal component
 
 function SignIn({ show, handleClose }) {
     const [isSignedIn, setIsSignedIn] = useState(false);
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showSignupModal, setShowSignupModal] = useState(false); // State for showing Signup modal
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
-        const storedUserData = localStorage.getItem('user');
-        const userData = JSON.parse(storedUserData);
-
-        // Access individual properties
-        const storedUsername = userData.username;
-        const storedEmail = userData.email;
-        const storedPassword = userData.password;
-        console.log(`Username: ${storedUsername}, Email: ${storedEmail}, Password: ${storedPassword}`);
-
-        // Trim whitespace and convert to strings
-        const enteredUsername = username.trim();
-        const enteredPassword = password.trim();
-
-        console.log('Entered Username:', enteredUsername);
-        console.log('Stored Username:', storedUsername);
-
-        // Check if entered credentials match stored credentials
-        if (enteredUsername === storedUsername && enteredPassword === storedPassword) {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
             setIsSignedIn(true);
             setError('');
-            console.log('Successfully signed in!');
-        } else {
-            setUsername('');
+
+            // Creates a Session for the user using there userUID to be able to store data
+            localStorage.removeItem('userUID');
+            localStorage.setItem('userUID', user.uid);
+
+        } catch (error) {
+            setEmail('');
             setPassword('');
             setError('Invalid username or password');
-            console.log('Invalid username or password');
         }
     };
 
-
     const handleLogout = () => {
-        // Clear signed-in status and any user data from local storage
-        setIsSignedIn(false);
-        setUsername('');
-        setPassword('');
+        auth.signOut().then(() => {
+            setIsSignedIn(false);
+            setEmail('');
+            setPassword('');
+            setError('');
+            localStorage.removeItem('userUID');
+        }).catch((error) => {
+            console.log('Error signing out:', error);
+        });
     };
 
     const openSignupModal = () => {
@@ -76,10 +70,10 @@ function SignIn({ show, handleClose }) {
                                 <Col sm={12}>
                                     <Form.Control
                                         type="text"
-                                        placeholder="Username"
+                                        placeholder="Email"
                                         className="username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </Col>

@@ -3,7 +3,10 @@ import { format, addDays, startOfWeek } from "date-fns";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import "./WeeklySchedule.css"; // Make sure to link your CSS file here
 import { useNavigate } from 'react-router-dom';
-import { tournaments } from "../components/TournamentData";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../FirebaseConfig";
+import { parseISO } from "date-fns/parseISO";
+
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -12,27 +15,37 @@ const WeeklySchedule = () => {
     const [bookings, setBookings] = useState({}); // State for storing bookings
     const [timeRange] = useState({ start: "06:30", end: "22:00" });
     const [currentWeek, setCurrentWeek] = useState(0);
-
+    const uid = localStorage.getItem('userUID');
     useEffect(() => {
-        // Convert tournaments data to bookings format
-        const bookingsData = tournaments.reduce((acc, tournament) => {
-            const date = new Date(tournament.date);
-            const day = days[date.getDay()];
-            const booking = {
-                bookingId: tournament.id.toString(),
-                tournamentName: tournament.name,
-                startTime: tournament.time,
-                endTime: addHours(tournament.time, 2),
-                date: format(date, 'MM/dd/yyyy')
-            };
-            if (!acc[day]) {
-                acc[day] = [];
-            }
-            acc[day].push(booking);
-            return acc;
-        }, {});
-        setBookings(bookingsData);
-    }, []);
+        const fetchBookings = async () => {
+            const q = query(collection(db, "bookings"), where("userUID", "==", uid));
+            const querySnapshot = await getDocs(q);
+            const bookingsData = querySnapshot.docs.reduce((acc, doc) => {
+                const tournament = doc.data();
+
+                const date = parseISO(tournament.startDate);
+                console.log(tournament.startDate);
+                console.log(date);
+                const day = days[date.getDay()];
+                const booking = {
+                    bookingId: doc.id,
+                    tournamentName: tournament.tournamentName,
+                    startTime: tournament.startTime,
+                    endTime: addHours(tournament.startTime, 2),
+                    date: format(date, 'MM/dd/yyyy')
+                };
+                if (!acc[day]) {
+                    acc[day] = [];
+                }
+                acc[day].push(booking);
+                return acc;
+            }, {});
+            console.log(bookingsData);
+            setBookings(bookingsData);
+        };
+
+        fetchBookings();
+    }, [uid]);
 
     // Helper function to add hours to a time string
     const addHours = (time, hours) => {

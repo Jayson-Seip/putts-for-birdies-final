@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, ProgressBar, Container, Row, Col, Alert, Modal } from 'react-bootstrap';
+import { Form, Button, ProgressBar, Container, Row, Col, Modal } from 'react-bootstrap';
 import { tournaments } from '../components/TournamentData';
 import './BookingTournamentPage.css';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../FirebaseConfig';
+
 
 
 const validateEmail = (email) => {
@@ -95,7 +98,7 @@ const BookingTournamentPage = ({ tournament }) => {
         }
     }, [error]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null); // Reset error state
 
@@ -103,6 +106,7 @@ const BookingTournamentPage = ({ tournament }) => {
 
             const bookingData = {
                 id: new Date().getTime(), // Unique ID for the booking
+                userUID: localStorage.getItem('userUID'),
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 email: formData.email,
@@ -114,6 +118,7 @@ const BookingTournamentPage = ({ tournament }) => {
                 startTime: formData.startTime,
                 selectedDay: formData.selectedDay,
             };
+            await addDoc(collection(db, 'bookings'), bookingData);
 
             // Simulate a successful submission
             setSubmittedData(bookingData);

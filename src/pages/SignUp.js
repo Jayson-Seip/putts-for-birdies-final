@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import { db } from '../FirebaseConfig'; // Import Firestore
+import { auth } from '../FirebaseConfig'; // Import Firebase Auth
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc } from 'firebase/firestore';
 
 const Signup = ({ show, handleClose }) => {
     const [username, setUsername] = useState('');
@@ -7,21 +11,36 @@ const Signup = ({ show, handleClose }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSignup = () => {
+    const handleModalClose = () => {
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setError('');
+    }
+
+    const handleSignup = async () => {
         const newUser = { username, email, password };
         // Here you can perform additional validation if needed
         if (username && email && password) {
-            // Store user information in local storage
-            localStorage.setItem('user', JSON.stringify(newUser));
-            console.log('User signed up and stored in local storage:', newUser);
+            try {
+                // Store user information in Firestore
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                await addDoc(collection(db, 'users'), { uid: user.uid, username: username, email: email, password: password });
+                console.log('User signed up and stored in Firestore:', newUser);
 
-            // Optionally, you can clear the form fields after submission
-            setUsername('');
-            setEmail('');
-            setPassword('');
+                // Optionally, you can clear the form fields after submission
+                setUsername('');
+                setEmail('');
+                setPassword('');
 
-            // Close the modal after signup
-            handleClose();
+                // Close the modal after signup
+                setError('');
+                handleClose();
+            } catch (error) {
+                console.error('Error adding document: ', error);
+                setError('Error signing up. Please try again.');
+            }
         } else {
             setError('Please fill out all fields.');
         }
@@ -81,7 +100,7 @@ const Signup = ({ show, handleClose }) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleModalClose}>
                     Close
                 </Button>
                 <Button variant="primary" onClick={handleSignup}>
