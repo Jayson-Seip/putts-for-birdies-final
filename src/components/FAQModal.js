@@ -61,11 +61,18 @@ function FAQModal({ show, handleClose }) {
                             Payments can be made upon check-in at the tournament.
                         </Accordion.Body>
                     </Accordion.Item>
-
                     <Accordion.Item eventKey="7">
+                        <Accordion.Header>How do I cancel my reservation?</Accordion.Header>
+                        <Accordion.Body>
+                            Contact 613-111-2222 <br />
+                            <strong>Note: Cancellations must be made 24 hours in advance.</strong>
+                        </Accordion.Body>
+                    </Accordion.Item>
+
+                    <Accordion.Item eventKey="8">
                         <Accordion.Header>How do I contact support?</Accordion.Header>
                         <Accordion.Body>
-                            You can reach out to our support team at support@example.com.
+                            You can reach out to our support team at support@puttsForBirdies.com.
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
