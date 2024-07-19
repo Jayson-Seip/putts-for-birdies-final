@@ -95,6 +95,7 @@ function SummerCampSearch() {
             </Container>
 
             <Form>
+                {/* Faceted Search */}
                 <Row className="mt-4 align-items-start">
                     <Col md={2} className='facted-search border'>
                         <Form.Label className="title">Camp Category</Form.Label>
@@ -167,6 +168,7 @@ function SummerCampSearch() {
                     </Col>
                 </Row>
             </Form>
+            {/* Booking Modal */}
             <Modal show={showBookingModal} onHide={closeBookingModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Book a Summer Camp</Modal.Title>

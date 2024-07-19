@@ -1,15 +1,11 @@
 .tournament-card {
     border: none;
-    /* Remove the border */
 }
 
 .tournament-card img {
     height: 200px;
-    /* Set the desired height */
     width: 100%;
-    /* Ensure the image takes up the full width of the card */
     object-fit: cover;
-    /* This ensures the image maintains aspect ratio and covers the entire area */
 }
 
 .tournament-description {

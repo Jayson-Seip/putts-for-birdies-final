@@ -54,7 +54,7 @@ const BookingTournamentPage = ({ tournament }) => {
     useEffect(() => {
         if (tournament) {
             const selectedDate = new Date(tournament.date);
-            selectedDate.setUTCHours(12); // Ensure date is set to noon UTC to avoid timezone issues
+            selectedDate.setUTCHours(12);
             const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
             setFormData(prevData => ({
                 ...prevData,
@@ -104,7 +104,7 @@ const BookingTournamentPage = ({ tournament }) => {
 
         try {
             const bookingData = {
-                id: new Date().getTime(), // Unique ID for the booking
+                id: new Date().getTime(),
                 userUID: localStorage.getItem('userUID'),
                 firstName: formData.firstName,
                 lastName: formData.lastName,
@@ -120,7 +120,7 @@ const BookingTournamentPage = ({ tournament }) => {
             };
             await addDoc(collection(db, 'tournamentBookings'), bookingData);
 
-            // Simulate a successful submission
+
             setSubmittedData(bookingData);
             setBookingNumber(bookingData.id);
             setSubmitted(true);
@@ -153,7 +153,7 @@ const BookingTournamentPage = ({ tournament }) => {
     };
 
     const calculateProgress = () => {
-        const totalSteps = 2; // Adjust this based on total steps
+        const totalSteps = 2;
         return Math.round((step / totalSteps) * 100);
     };
 

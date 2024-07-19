@@ -300,6 +300,7 @@ function TeeTimeBook({ teeTime }) {
                     )}
                 </Form>
             ) : (
+                // Booking Summary
                 <div>
                     <h3>Thank you for your submission!</h3>
                     <h4>Booking Summary:</h4>
@@ -325,6 +326,7 @@ function TeeTimeBook({ teeTime }) {
                     <p><strong>Require Golf Cart:</strong> {formData.requireGolfCart}</p>
                 </div>
             )}
+            {/* Error Modal */}
             <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>

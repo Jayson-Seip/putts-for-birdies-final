@@ -1,8 +1,9 @@
 import React from 'react';
 import { Modal, Accordion } from 'react-bootstrap';
-import './FAQModal.css'; // Import the custom CSS file
+import './FAQModal.css';
 
 function FAQModal({ show, handleClose }) {
+    // Displays the FAQ for the user
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

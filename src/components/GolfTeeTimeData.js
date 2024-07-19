@@ -1,3 +1,5 @@
+//example Data for golf courses
+
 export const golfCourses = [
     { id: 1, name: '9 Hole Course', date: '2024-07-24', time: '08:00', price: '50' },
     { id: 2, name: '18 Hole Course', date: '2024-07-24', time: '10:30', price: '75' },

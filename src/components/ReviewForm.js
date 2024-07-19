@@ -9,9 +9,9 @@ const ReviewForm = ({ isOpen, onClose, onSubmit }) => {
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent default form submission
-        onSubmit({ name, rating, comment }); // Pass form data to parent component
-        setIsSubmitted(true); // Update state to indicate submission
+        e.preventDefault();
+        onSubmit({ name, rating, comment });
+        setIsSubmitted(true);
     };
     const handleClose = () => {
         handleResetForm()

@@ -1,4 +1,4 @@
-// src/components/ReviewList.js
+
 import React from 'react';
 
 const ReviewList = ({ reviews }) => (

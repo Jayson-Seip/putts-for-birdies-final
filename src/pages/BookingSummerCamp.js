@@ -20,7 +20,7 @@ function BookingSummerCamp({ onSubmit, camp }) {
         equipment: {}
     });
 
-    const [bookingNumber, setBookingNumber] = useState(null); // State to store booking number
+    const [bookingNumber, setBookingNumber] = useState(null);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [error, setError] = useState(null);
 
@@ -83,7 +83,7 @@ function BookingSummerCamp({ onSubmit, camp }) {
     };
 
     const validatePhoneNumber = (phoneNumber) => {
-        const re = /^\d{10}$/; // Example: 10 digit phone number
+        const re = /^\d{10}$/;
         return re.test(String(phoneNumber));
     };
 
@@ -92,7 +92,7 @@ function BookingSummerCamp({ onSubmit, camp }) {
     };
 
     const generateBookingId = () => {
-        // Replace with your logic to generate a unique ID (e.g., timestamp-based or UUID)
+
         return new Date().getTime().toString();
     };
 

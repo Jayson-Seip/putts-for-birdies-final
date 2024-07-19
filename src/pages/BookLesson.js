@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, ProgressBar, Row, Col, Modal } from 'react-bootstrap';
-import { lessonPackages } from './Lessons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './BookLesson.css';
@@ -121,10 +120,13 @@ function BookingForm({ lesson }) {
     };
 
     return (
+
         <Container>
             {!submitted ? (
                 <Form onSubmit={handleSubmit}>
+                    {/* Progress Bar */}
                     <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} variant="success" />
+                    {/* Booking Forms */}
                     {step === 1 && (
                         <div>
                             <Form.Group controlId="tournament-select">
@@ -315,6 +317,7 @@ function BookingForm({ lesson }) {
                     )}
                 </Form>
             ) : (
+                // Success Modal
                 <div>
                     <h3>Your Lesson Has Been Booked!</h3>
                     <p>Your booking number is: {bookingNumber}</p>
@@ -340,6 +343,7 @@ function BookingForm({ lesson }) {
                     <p><strong>Instructor:</strong> {submittedData.instructor}</p>
                 </div>
             )}
+            {/* Error Modal */}
             <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>

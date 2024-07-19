@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { format, addDays, startOfWeek } from "date-fns";
 import { Button, Col, Container, Row, Modal } from "react-bootstrap";
-import "./WeeklySchedule.css"; // Make sure to link your CSS file here
+import "./WeeklySchedule.css";
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
@@ -13,11 +13,11 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 
 const WeeklySchedule = () => {
     const navigate = useNavigate();
-    const [bookings, setBookings] = useState({}); // State for storing bookings
+    const [bookings, setBookings] = useState({});
     const [timeRange] = useState({ start: "06:30", end: "22:00" });
     const [currentWeek, setCurrentWeek] = useState(0);
-    const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
-    const [showSignInModal, setShowSignInModal] = useState(false); // State for controlling modal visibility
+    const [showModal, setShowModal] = useState(false);
+    const [showSignInModal, setShowSignInModal] = useState(false);
     const uid = localStorage.getItem('userUID');
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const WeeklySchedule = () => {
                 const tournamentQuery = query(collection(db, "tournamentBookings"), where("userUID", "==", uid));
                 const tournamentSnapshot = await getDocs(tournamentQuery);
 
-                // Query for additional bookings
+                // Query for Tee Time Bookings
                 const additionalQuery = query(collection(db, "bookings"), where("userUID", "==", uid));
                 const additionalSnapshot = await getDocs(additionalQuery);
 
@@ -38,7 +38,7 @@ const WeeklySchedule = () => {
                     const day = days[date.getDay()];
                     const booking = {
                         bookingId: doc.id,
-                        name: bookingData.tournamentName || bookingData.teeTimePackage, // Handle both types of bookings
+                        name: bookingData.tournamentName || bookingData.teeTimePackage,
                         startTime: bookingData.startTime,
                         endTime: addHours(bookingData.startTime, 2),
                         category: bookingData.tournamentType,
@@ -54,7 +54,7 @@ const WeeklySchedule = () => {
                 setBookings(bookingsData);
             } catch (error) {
                 console.error("Error fetching bookings:", error);
-                setShowModal(true); // Show modal on error
+                setShowModal(true);
             }
         };
 

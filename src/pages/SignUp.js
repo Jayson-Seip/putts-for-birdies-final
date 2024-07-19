@@ -21,7 +21,7 @@ const Signup = ({ show, handleClose }) => {
 
     const handleSignup = async () => {
         const newUser = { username, email, password };
-        // Here you can perform additional validation if needed
+
         if (username && email && password) {
             try {
                 // Store user information in Firestore
@@ -30,12 +30,12 @@ const Signup = ({ show, handleClose }) => {
                 await addDoc(collection(db, 'users'), { uid: user.uid, username: username, email: email, password: password });
                 console.log('User signed up and stored in Firestore:', newUser);
 
-                // Optionally, you can clear the form fields after submission
+
                 setUsername('');
                 setEmail('');
                 setPassword('');
 
-                // Close the modal after signup
+
                 setError('');
                 handleClose();
             } catch (error) {

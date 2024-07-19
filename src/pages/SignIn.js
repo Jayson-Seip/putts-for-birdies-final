@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../FirebaseConfig'; // Import Firebase auth
-import SignUp from './SignUp'; // Import the SignupModal component
+import { auth } from '../FirebaseConfig';
+import SignUp from './SignUp';
 
 function SignIn({ show, handleClose, singedIn }) {
     const [isSignedIn, setIsSignedIn] = useState(singedIn);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [showSignupModal, setShowSignupModal] = useState(false); // State for showing Signup modal
+    const [showSignupModal, setShowSignupModal] = useState(false);
 
     useEffect(() => {
-        // Check if user ID is present in sessionStorage
+        // Check if user is logged in
         const userUID = localStorage.getItem('userUID');
         if (userUID) {
             setIsSignedIn(true);
         }
-    }, [show]); // Run this effect when the `show` prop changes
+    }, [show]);
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -27,7 +27,7 @@ function SignIn({ show, handleClose, singedIn }) {
             setIsSignedIn(true);
             setError('');
 
-            // Creates a Session for the user using their userUID to be able to store data
+
             localStorage.removeItem('userUID');
             localStorage.setItem('userUID', user.uid);
 

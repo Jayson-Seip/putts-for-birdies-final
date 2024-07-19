@@ -28,10 +28,9 @@ function TournamentSearch() {
     const navigate = useNavigate();
 
 
-    // Functions to handle the change in the facted search
     const handleCategoryChange = (category) => {
         setSelectedCategories((prev) =>
-            // if category is in the list then it is removed, else it is added
+
             prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
         );
     };

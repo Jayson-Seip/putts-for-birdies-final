@@ -22,6 +22,7 @@ function PuttingGreen() {
                 <Col sm={5} className="Image order-1 order-md-2">
                     <Image src={process.env.PUBLIC_URL + "/images/PuttingGreen.jpg"} className="custom-image" />
                 </Col>
+                {/* Putting Green Information */}
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center order-2 order-ms-1">
                     <div className="lesson-info">
                         <h1>Putting Green</h1>
@@ -29,6 +30,7 @@ function PuttingGreen() {
 
                     </div>
                 </Col>
+                {/* Chipping Green Information */}
             </Row>
             <Row className="RowTwo mt-5 mb-5">
                 <Col sm={7} className="Information d-flex justify-content-center align-items-center order-2 order-ms-1">

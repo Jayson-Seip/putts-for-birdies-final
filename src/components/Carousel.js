@@ -4,6 +4,7 @@ import './Carousel.css';
 
 
 function CarouselImg() {
+    // Main Header for program
     return (
         <Container fluid className="carousel-container">
             <Image src={process.env.PUBLIC_URL + '/images/mainpageheader.jpg'} className="top-image"></Image>

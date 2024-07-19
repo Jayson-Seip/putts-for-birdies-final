@@ -38,6 +38,7 @@ function SummerCamp() {
                 <Col sm={2}></Col>
 
             </Row>
+            {/* Summer Camp Information */}
             <h3>Summer Camps run Monday to Friday from 8am to 5pm</h3>
             <h5> Offered for All Skill Levels </h5>
             <Row className="mt-4">

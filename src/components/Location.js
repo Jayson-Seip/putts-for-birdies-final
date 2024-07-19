@@ -1,5 +1,5 @@
 import React from 'react';
-import './Location.css'; // Assuming Location.css contains your custom styles
+import './Location.css';
 import { useTranslation } from 'react-i18next';
 
 export const Location = () => {
