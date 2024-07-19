@@ -302,6 +302,27 @@ function TeeTimeBook({ teeTime }) {
             ) : (
                 <div>
                     <h3>Thank you for your submission!</h3>
+                    <h4>Booking Summary:</h4>
+                    <p><strong>First Name:</strong> {formData.firstName}</p>
+                    <p><strong>Last Name:</strong> {formData.lastName}</p>
+                    <p><strong>Email:</strong> {formData.email}</p>
+                    <p><strong>Phone Number:</strong> {formData.phoneNumber}</p>
+                    <p><strong>Tee Time Package:</strong> {formData.teeTimePackage}</p>
+                    <p><strong>Start Date:</strong> {formData.startDate}</p>
+                    <p><strong>Start Time:</strong> {formData.startTime}</p>
+                    <p><strong>Day of Week:</strong> {formData.dayOfWeek}</p>
+                    <p><strong>Number of Players:</strong> {formData.numberOfPlayers}</p>
+                    <p><strong>Require Equipment:</strong> {formData.requireEquipment}</p>
+                    {formData.requireEquipment === 'yes' && (
+                        <div>
+                            <p><strong>Equipment Needed:</strong></p>
+                            <ul>
+                                {formData.equipment.golfClubs && <li>Golf Clubs</li>}
+                                {formData.equipment.golfBalls && <li>Golf Balls</li>}
+                            </ul>
+                        </div>
+                    )}
+                    <p><strong>Require Golf Cart:</strong> {formData.requireGolfCart}</p>
                 </div>
             )}
             <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
