@@ -19,6 +19,8 @@ const validateName = (name) => {
     return name.trim() !== '';
 };
 
+const instructors = ["John Doe", "Jane Smith", "Mike Johnson", "Emily Davis"];
+
 function BookingForm({ lesson }) {
     console.log(lesson);
     const [step, setStep] = useState(1);
@@ -41,6 +43,7 @@ function BookingForm({ lesson }) {
         isLastNameValid: false,
         isEmailValid: false,
         isPhoneNumberValid: false,
+        instructor: instructors[Math.floor(Math.random() * instructors.length)]
     });
     const [submittedData, setSubmittedData] = useState(null);
     const [bookingNumber, setBookingNumber] = useState(null);
@@ -111,8 +114,6 @@ function BookingForm({ lesson }) {
             setError("An error occurred while submitting your booking. Please try again.");
             setShowErrorModal(true);
         }
-
-
     };
 
     const calculateProgress = () => {
@@ -250,8 +251,6 @@ function BookingForm({ lesson }) {
                                 </Col>
                             </Row>
                         </div>
-
-
                     )}
                     {step === 3 && (
                         <div>
@@ -312,8 +311,6 @@ function BookingForm({ lesson }) {
                                     </Button>
                                 </Col>
                             </Row>
-
-
                         </div>
                     )}
                 </Form>
@@ -340,23 +337,20 @@ function BookingForm({ lesson }) {
                     )}
                     <p><strong>Date:</strong> {submittedData.date.toLocaleDateString()}</p>
                     <p><strong>Time:</strong> {submittedData.time}</p>
+                    <p><strong>Instructor:</strong> {submittedData.instructor}</p>
                 </div>
             )}
             <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-
                         <i className="bi bi-exclamation-triangle-fill" style={{ color: 'red' }}></i> Error
                     </Modal.Title>
-
                 </Modal.Header>
                 <Modal.Body>{error}</Modal.Body>
-
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowErrorModal(false)}>
                         Close
                     </Button>
-
                 </Modal.Footer>
             </Modal>
         </Container>
