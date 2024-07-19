@@ -4,6 +4,8 @@ import './TournamentSearch.css';
 import TeeTimeBook from './TeeTimeBook';
 import { golfCourses } from '../components/GolfTeeTimeData';
 import SignIn from './SignIn.js';
+import { useNavigate } from 'react-router-dom';
+
 
 const TeeTimeTypes = ['9 Hole Course', '18 Hole Course', 'Championship Course'];
 function TeeTimeSearch() {
@@ -16,6 +18,7 @@ function TeeTimeSearch() {
     const [showBookingModal, setShowBookingModal] = useState(false);
     const [selectedTeeTime, setSelectedTeeTime] = useState(null);
     const [showSignupModal, setShowSignupModal] = useState(false);
+    const navigate = useNavigate();
 
     // Functions to handle the change in the faceted search
     const handleTypeChange = (type) => {
@@ -82,7 +85,20 @@ function TeeTimeSearch() {
 
     return (
         <Container>
-            <Container className="text-header mt-3"><h1>Search for Tee Times</h1></Container>
+            <Container className="text-header mt-3">
+                <Row className="tournament-heading align-items-center" role="banner">
+                    <Col xs="auto">
+                        <Button className='back-button' onClick={() => navigate('/Golf-Courses')} aria-label="Back to Home Page">
+                            ← Back to Golf Courses
+                        </Button>
+                    </Col>
+                    <Col>
+                        <h1>Search For Tee Times</h1>
+                    </Col>
+                    <Col sm={2}></Col>
+
+                </Row>
+            </Container>
 
             <Form>
                 <Row className="mt-4 align-items-start">

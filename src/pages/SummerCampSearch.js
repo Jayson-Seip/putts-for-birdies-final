@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import "./SummerCampSearch.css"
 import BookingSummerCamp from './BookingSummerCamp';
 import { summerCamps } from "../components/SummerCampData";
@@ -74,10 +75,24 @@ function SummerCampSearch() {
         setShowBookingModal(false);
         //setSelectedCamp(null);
     };
+    const navigate = useNavigate();
 
     return (
         <Container>
-            <Container className="text-header mt-3"><h1>Search for Summer Camp</h1></Container>
+            <Container className="text-header mt-3">
+                <Row className="tournament-heading align-items-center" role="banner">
+                    <Col xs="auto">
+                        <Button className='back-button' onClick={() => navigate('/SummerCamp')} aria-label="Back to Summer Camp Page">
+                            ← Back to Summer Camp Page
+                        </Button>
+                    </Col>
+                    <Col>
+                        <h1>Search for Summer Camps</h1>
+                    </Col>
+                    <Col sm={2}></Col>
+
+                </Row>
+            </Container>
 
             <Form>
                 <Row className="mt-4 align-items-start">
