@@ -74,7 +74,7 @@ function SignIn({ show, handleClose, singedIn }) {
                     {isSignedIn ? (
                         <div>
                             <p>You are signed in!</p>
-                            <Button variant="secondary" onClick={handleLogout} className="book-btn">
+                            <Button variant="secondary" onClick={handleLogout} className="book">
                                 Logout
                             </Button>
                         </div>
@@ -113,12 +113,12 @@ function SignIn({ show, handleClose, singedIn }) {
                             )}
                             <Row className="mb-3">
                                 <Col sm={6}>
-                                    <Button variant="primary" type="submit" className="book-btn">
+                                    <Button variant="primary" type="submit" className="book">
                                         Sign In
                                     </Button>
                                 </Col>
                                 <Col sm={6} className="text-end">
-                                    <Button variant="secondary" onClick={openSignupModal} className="book-btn">
+                                    <Button variant="secondary" onClick={openSignupModal} className="book">
                                         Sign Up
                                     </Button>
                                 </Col>
@@ -128,9 +128,6 @@ function SignIn({ show, handleClose, singedIn }) {
                 </Modal.Body>
                 {isSignedIn && (
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={closeSignupModal}>
-                            Close
-                        </Button>
                     </Modal.Footer>
                 )}
             </Modal>
