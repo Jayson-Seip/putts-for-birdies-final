@@ -95,7 +95,7 @@ const ReviewForm = ({ isOpen, onClose, onSubmit }) => {
                             />
                         </Form.Group>
 
-                        <Button variant="primary mt-2" type="submit">
+                        <Button variant="primary mt-2" className='book' type="submit">
                             Submit Review
                         </Button>
                     </Form>
@@ -103,7 +103,7 @@ const ReviewForm = ({ isOpen, onClose, onSubmit }) => {
             </Modal.Body>
             {!isSubmitted && (
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={onClose}>
+                    <Button variant="secondary" className='book' onClick={onClose}>
                         Close
                     </Button>
                     <Button variant="link" onClick={handleResetForm}>
