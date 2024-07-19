@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { format, addDays, startOfWeek } from "date-fns";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Modal } from "react-bootstrap";
 import "./WeeklySchedule.css"; // Make sure to link your CSS file here
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 import { parseISO } from "date-fns/parseISO";
+import SignIn from "./SignIn";
 
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -15,42 +16,53 @@ const WeeklySchedule = () => {
     const [bookings, setBookings] = useState({}); // State for storing bookings
     const [timeRange] = useState({ start: "06:30", end: "22:00" });
     const [currentWeek, setCurrentWeek] = useState(0);
+    const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
+    const [showSignInModal, setShowSignInModal] = useState(false); // State for controlling modal visibility
     const uid = localStorage.getItem('userUID');
 
     useEffect(() => {
         const fetchBookings = async () => {
-            // Query for tournament bookings
-            const tournamentQuery = query(collection(db, "tournamentBookings"), where("userUID", "==", uid));
-            const tournamentSnapshot = await getDocs(tournamentQuery);
+            try {
+                // Query for tournament bookings
+                const tournamentQuery = query(collection(db, "tournamentBookings"), where("userUID", "==", uid));
+                const tournamentSnapshot = await getDocs(tournamentQuery);
 
-            // Query for additional bookings
-            const additionalQuery = query(collection(db, "bookings"), where("userUID", "==", uid));
-            const additionalSnapshot = await getDocs(additionalQuery);
+                // Query for additional bookings
+                const additionalQuery = query(collection(db, "bookings"), where("userUID", "==", uid));
+                const additionalSnapshot = await getDocs(additionalQuery);
 
-            // Merge results
-            const bookingsData = [...tournamentSnapshot.docs, ...additionalSnapshot.docs].reduce((acc, doc) => {
-                const bookingData = doc.data();
-                const date = parseISO(bookingData.startDate);
-                const day = days[date.getDay()];
-                const booking = {
-                    bookingId: doc.id,
-                    name: bookingData.tournamentName || bookingData.teeTimePackage, // Handle both types of bookings
-                    startTime: bookingData.startTime,
-                    endTime: addHours(bookingData.startTime, 2),
-                    date: format(date, 'MM/dd/yyyy')
-                };
-                if (!acc[day]) {
-                    acc[day] = [];
-                }
-                acc[day].push(booking);
-                return acc;
-            }, {});
-            console.log(bookingsData);
-            setBookings(bookingsData);
+                // Merge results
+                const bookingsData = [...tournamentSnapshot.docs, ...additionalSnapshot.docs].reduce((acc, doc) => {
+                    const bookingData = doc.data();
+                    const date = parseISO(bookingData.startDate);
+                    const day = days[date.getDay()];
+                    const booking = {
+                        bookingId: doc.id,
+                        name: bookingData.tournamentName || bookingData.teeTimePackage, // Handle both types of bookings
+                        startTime: bookingData.startTime,
+                        endTime: addHours(bookingData.startTime, 2),
+                        date: format(date, 'MM/dd/yyyy')
+                    };
+                    if (!acc[day]) {
+                        acc[day] = [];
+                    }
+                    acc[day].push(booking);
+                    return acc;
+                }, {});
+                console.log(bookingsData);
+                setBookings(bookingsData);
+            } catch (error) {
+                console.error("Error fetching bookings:", error);
+                setShowModal(true); // Show modal on error
+            }
         };
 
         fetchBookings();
     }, [uid]);
+
+    const openSignInModal = () => {
+        setShowSignInModal(true);
+    };
 
     // Helper function to add hours to a time string
     const addHours = (time, hours) => {
@@ -155,6 +167,22 @@ const WeeklySchedule = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Modal for sign-in prompt */}
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Please Sign In</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    You need to sign in first to view your bookings.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={openSignInModal}>
+                        Sign In
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <SignIn show={showSignInModal} handleClose={() => setShowSignInModal(false)} />
         </Container>
     );
 };
