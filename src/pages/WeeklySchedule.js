@@ -177,7 +177,7 @@ const WeeklySchedule = () => {
                     You need to sign in first to view your bookings.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={openSignInModal}>
+                    <Button variant="primary" onClick={openSignInModal} className="book">
                         Sign In
                     </Button>
                 </Modal.Footer>
