@@ -114,7 +114,7 @@ function SignIn({ show, handleClose }) {
                 </Modal.Body>
                 {isSignedIn && (
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="secondary" onClick={closeSignupModal}>
                             Close
                         </Button>
                     </Modal.Footer>

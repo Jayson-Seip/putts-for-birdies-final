@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
 import './TournamentSearch.css';
 import TeeTimeBook from './TeeTimeBook';
 import { golfCourses } from '../components/GolfTeeTimeData';
+import SignIn from './SignIn.js';
 
 const TeeTimeTypes = ['9 Hole Course', '18 Hole Course', 'Championship Course'];
 function TeeTimeSearch() {
@@ -14,6 +15,7 @@ function TeeTimeSearch() {
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [showBookingModal, setShowBookingModal] = useState(false);
     const [selectedTeeTime, setSelectedTeeTime] = useState(null);
+    const [showSignupModal, setShowSignupModal] = useState(false);
 
     // Functions to handle the change in the faceted search
     const handleTypeChange = (type) => {
@@ -56,15 +58,27 @@ function TeeTimeSearch() {
             (selectedMaxPrice === '' || Number(item.price) <= Number(selectedMaxPrice))
         );
     });
-
     const openTeeTimeBookingModal = (item) => {
-        setSelectedTeeTime(item);
-        setShowBookingModal(true);
+        console.log(localStorage.getItem('userUID'))
+        if (localStorage.getItem('userUID') != null) {
+            setSelectedTeeTime(item);
+            setShowBookingModal(true);
+        }
+        else {
+            setShowSignupModal(true);
+        }
     };
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
+        setSelectedTeeTime(null);
     };
+
+    const handleCloseModal = () => {
+        setShowSignupModal(false);
+    };
+
+
 
     return (
         <Container>
@@ -125,13 +139,14 @@ function TeeTimeSearch() {
                 </Row>
             </Form>
             <Modal show={showBookingModal} onHide={closeBookingModal}>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton onClick={handleCloseModal}>
                     <Modal.Title>Book Tee Time</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <TeeTimeBook teeTime={selectedTeeTime}></TeeTimeBook>
                 </Modal.Body>
             </Modal>
+            <SignIn show={showSignupModal} handleClose={handleCloseModal} />
         </Container>
     );
 }

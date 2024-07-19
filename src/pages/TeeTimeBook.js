@@ -8,7 +8,7 @@ function TeeTimeBook({ teeTime }) {
     const [step, setStep] = useState(1);
     const [submitted, setSubmitted] = useState(false);
     const UID = localStorage.getItem('userUID');
-    const selectedDate = new Date(teeTime.date);
+    const selectedDate = teeTime ? new Date(teeTime.date) : new Date();
     selectedDate.setUTCHours(12); // Ensure date is set to noon UTC to avoid timezone issues
     const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
     const [formData, setFormData] = useState({
@@ -16,9 +16,9 @@ function TeeTimeBook({ teeTime }) {
         lastName: '',
         email: '',
         phoneNumber: '',
-        teeTimePackage: teeTime ? teeTime.name : (teeTime.length > 0 ? teeTime[0].title : ''),
-        startDate: teeTime.date,
-        startTime: teeTime.time,
+        teeTimePackage: teeTime ? teeTime.name : '',
+        startDate: teeTime ? teeTime.date : '',
+        startTime: teeTime ? teeTime.time : '',
         dayOfWeek: selectedDay,
         numberOfPlayers: 1,
         requireEquipment: 'no',
@@ -50,6 +50,7 @@ function TeeTimeBook({ teeTime }) {
             }));
         }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

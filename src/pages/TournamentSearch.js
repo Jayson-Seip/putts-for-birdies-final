@@ -5,6 +5,7 @@ import './TournamentSearch.css'
 import BookingTournamentPage from './BookingTournamentPage';
 import { tournaments } from '../components/TournamentData.js';
 import { useNavigate } from 'react-router-dom';
+import SignIn from './SignIn.js';
 
 
 const TournamentType = ['Charity', 'Junior', 'Senior', 'Stroke Play', 'Scramble', 'Night Golf'];
@@ -22,6 +23,7 @@ function TournamentSearch() {
     const [selectedMaxPrice, setSelectedMaxPrice] = useState('');
     const [showBookingModal, setShowBookingModal] = useState(false)
     const [selectedTournament, setSelectedTournament] = useState(null);
+    const [showSignupModal, setShowSignupModal] = useState(false);
     const navigate = useNavigate();
 
 
@@ -75,13 +77,22 @@ function TournamentSearch() {
     });
 
     const openBookingModal = (tournament) => {
-        setSelectedTournament(tournament);
-        setShowBookingModal(true);
+        console.log(localStorage.getItem('userUID'))
+        if (localStorage.getItem('userUID') != null) {
+            setSelectedTournament(tournament);
+            setShowBookingModal(true);
+        }
+        else {
+            setShowSignupModal(true);
+        }
     };
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
         setSelectedTournament(null);
+    };
+    const handleCloseModal = () => {
+        setShowSignupModal(false);
     };
 
     return (
@@ -164,13 +175,14 @@ function TournamentSearch() {
                 </Row>
             </Form>
             <Modal show={showBookingModal} onHide={closeBookingModal}>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton onClick={handleCloseModal}>
                     <Modal.Title>Book Tournament</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <BookingTournamentPage onClose={closeBookingModal} tournament={selectedTournament} />
                 </Modal.Body>
             </Modal>
+            <SignIn show={showSignupModal} handleClose={handleCloseModal} />
         </Container >
     );
 }
