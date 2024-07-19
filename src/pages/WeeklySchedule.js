@@ -41,6 +41,7 @@ const WeeklySchedule = () => {
                         name: bookingData.tournamentName || bookingData.teeTimePackage, // Handle both types of bookings
                         startTime: bookingData.startTime,
                         endTime: addHours(bookingData.startTime, 2),
+                        category: bookingData.tournamentType,
                         date: format(date, 'MM/dd/yyyy')
                     };
                     if (!acc[day]) {
@@ -85,11 +86,20 @@ const WeeklySchedule = () => {
     // Generate an array of times based on the selected time range
     const generateTimesArray = (start, end) => {
         const startHour = parseInt(start.split(":")[0], 10);
-        const endHour = parseInt(end.split(":")[0], 10) + 2; // Add 2 hours to the end time
-        return Array(endHour - startHour + 1).fill(null).map((_, i) => {
-            const hour = (startHour + i) % 24; // Wrap around after 24 hours
-            return `${String(hour).padStart(2, "0")}:00`;
-        });
+        const startMinute = parseInt(start.split(":")[1], 10);
+        const endHour = parseInt(end.split(":")[0], 10);
+        const endMinute = parseInt(end.split(":")[1], 10);
+        const times = [];
+
+        for (let hour = startHour; hour <= endHour; hour++) {
+            for (let minute = 0; minute < 60; minute += 30) {
+                if (hour === startHour && minute < startMinute) continue;
+                if (hour === endHour && minute > endMinute) break;
+                times.push(`${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`);
+            }
+        }
+
+        return times;
     };
 
     const times = generateTimesArray(timeRange.start, timeRange.end);
@@ -101,12 +111,14 @@ const WeeklySchedule = () => {
     const getBookingsForTimeSlot = (day, date, time) => {
         const dayBookings = bookings[day] || [];
         return dayBookings.filter(booking => {
-            const bookingStart = parseInt(booking.startTime.split(":")[0], 10);
-            const bookingEnd = booking.endTime ? parseInt(booking.endTime.split(":")[0], 10) : parseInt(booking.startTime.split(":")[0], 10) + 2;
-            const currentHour = parseInt(time.split(":")[0], 10);
+            const [bookingStartHour, bookingStartMinute] = booking.startTime.split(":").map(Number);
+            const [bookingEndHour, bookingEndMinute] = booking.endTime ? booking.endTime.split(":").map(Number) : [bookingStartHour + 2, 0];
+            const [currentHour, currentMinute] = time.split(":").map(Number);
             const bookingDate = new Date(booking.date);
             const providedDate = new Date(date);
-            return bookingDate.getTime() === providedDate.getTime() && currentHour >= bookingStart && currentHour < bookingEnd;
+            return bookingDate.getTime() === providedDate.getTime() &&
+                (currentHour > bookingStartHour || (currentHour === bookingStartHour && currentMinute >= bookingStartMinute)) &&
+                (currentHour < bookingEndHour || (currentHour === bookingEndHour && currentMinute < bookingEndMinute));
         });
     };
 
@@ -119,6 +131,8 @@ const WeeklySchedule = () => {
                     {timeSlotBookings.map(booking => (
                         <div key={booking.bookingId} className="booking">
                             {booking.name}<br />
+                            {booking.category}<br />
+                            {booking.skillLevel}<br />
                             ({booking.startTime} - {booking.endTime})<br />
                             {booking.date}
                         </div>

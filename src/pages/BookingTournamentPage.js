@@ -103,7 +103,6 @@ const BookingTournamentPage = ({ tournament }) => {
         setError(null); // Reset error state
 
         try {
-
             const bookingData = {
                 id: new Date().getTime(), // Unique ID for the booking
                 userUID: localStorage.getItem('userUID'),
@@ -112,6 +111,7 @@ const BookingTournamentPage = ({ tournament }) => {
                 email: formData.email,
                 phoneNumber: formData.phoneNumber,
                 tournamentName: formData.tournamentName,
+                tournamentType: tournament.category,
                 requireEquipment: formData.requireEquipment,
                 equipment: { ...formData.equipment },
                 startDate: formData.startDate,
