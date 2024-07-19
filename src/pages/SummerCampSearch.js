@@ -3,11 +3,13 @@ import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import "./SummerCampSearch.css"
 import BookingSummerCamp from './BookingSummerCamp';
+import SignIn from './SignIn';
 import { summerCamps } from "../components/SummerCampData";
 const CampCategories = ['Junior', 'Senior', 'Family'];
 const AgeGroups = ['7-13', '14-18', 'Any'];
 const SkillLevels = ['Beginner', 'Intermediate', 'Advanced'];
 const Weeks = [...new Set(summerCamps.map(camp => camp.week))];
+
 
 function SummerCampSearch() {
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -18,6 +20,8 @@ function SummerCampSearch() {
     const [selectedSkillLevel, setSelectedSkillLevel] = useState('');
     const [selectedCamp, setSelectedCamp] = useState(null);
     const [showBookingModal, setShowBookingModal] = useState(false);
+    const [showSignupModal, setShowSignupModal] = useState(false);
+    const [isSignedIn, setIsSignedIn] = useState(false);
 
     // Functions to handle the change in the faceted search
     const handleCategoryChange = (category) => {
@@ -66,15 +70,27 @@ function SummerCampSearch() {
     });
 
     const openBookingModal = (camp) => {
-        setSelectedCamp(null);
-        setSelectedCamp(camp);
-        setShowBookingModal(true);
+        console.log(localStorage.getItem('userUID'));
+        if (localStorage.getItem('userUID') != null) {
+            setSelectedCamp(null);
+            setSelectedCamp(camp);
+            setShowBookingModal(true);
+        } else {
+            setShowSignupModal(true);
+            setIsSignedIn(false);
+        }
+
     };
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
         //setSelectedCamp(null);
     };
+
+    const closeSignupModal = () => {
+        setShowSignupModal(false);
+    };
+
     const navigate = useNavigate();
 
     return (
@@ -178,6 +194,7 @@ function SummerCampSearch() {
 
                 </Modal.Body>
             </Modal>
+            <SignIn show={showSignupModal} handleClose={closeSignupModal} isSignedIn={isSignedIn} />
         </Container>
     );
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Card, Button, Row, Col, Modal } from "react-bootstrap";
 import "./Lessons.css"
 import BookingLessonPage from "./BookLesson.js";
+import SignIn from './SignIn';
 import { useNavigate } from 'react-router-dom';
 
 export const lessonPackages = [
@@ -122,18 +123,33 @@ const convertToEmbedURL = (url) => {
 
 
 
+
+
+
 function Lesson() {
     const [showBookingModal, setShowBookingModal] = useState(false);
     const [selectedLesson, setSelectedLesson] = useState(null);
+    const [showSignupModal, setShowSignupModal] = useState(false);
+    const [isSignedIn, setIsSignedIn] = useState(false);
 
     const openBookingModal = (lesson) => {
 
-        setSelectedLesson(lesson);
-        setShowBookingModal(true);
+        if (localStorage.getItem('userUID') != null) {
+            setSelectedLesson(lesson);
+            setShowBookingModal(true);
+        } else {
+            setShowSignupModal(true);
+            setIsSignedIn(false);
+        }
     };
+
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
+    };
+
+    const closeSignupModal = () => {
+        setShowSignupModal(false);
     };
 
     const navigate = useNavigate();
@@ -207,6 +223,7 @@ function Lesson() {
                     </Col>
                 ))}
             </Row>
+            <SignIn show={showSignupModal} handleClose={closeSignupModal} isSignedIn={isSignedIn} />
         </Container>
     );
 
