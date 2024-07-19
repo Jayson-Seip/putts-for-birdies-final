@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../FirebaseConfig'; // Import Firebase auth
 import SignUp from './SignUp'; // Import the SignupModal component
 
-function SignIn({ show, handleClose }) {
-    const [isSignedIn, setIsSignedIn] = useState(false);
+function SignIn({ show, handleClose, singedIn }) {
+    const [isSignedIn, setIsSignedIn] = useState(singedIn);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showSignupModal, setShowSignupModal] = useState(false); // State for showing Signup modal
+
+    useEffect(() => {
+        // Check if user ID is present in sessionStorage
+        const userUID = localStorage.getItem('userUID');
+        if (userUID) {
+            setIsSignedIn(true);
+        }
+    }, [show]); // Run this effect when the `show` prop changes
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -19,7 +27,7 @@ function SignIn({ show, handleClose }) {
             setIsSignedIn(true);
             setError('');
 
-            // Creates a Session for the user using there userUID to be able to store data
+            // Creates a Session for the user using their userUID to be able to store data
             localStorage.removeItem('userUID');
             localStorage.setItem('userUID', user.uid);
 
@@ -43,11 +51,17 @@ function SignIn({ show, handleClose }) {
     };
 
     const openSignupModal = () => {
-        setShowSignupModal(true);
+        if (localStorage.getItem('userUID') == null) {
+            setIsSignedIn(false);
+
+        } else {
+            setShowSignupModal(true);
+        }
     };
 
     const closeSignupModal = () => {
         setShowSignupModal(false);
+
     };
 
     return (
@@ -60,7 +74,7 @@ function SignIn({ show, handleClose }) {
                     {isSignedIn ? (
                         <div>
                             <p>You are signed in!</p>
-                            <Button variant="secondary" onClick={handleLogout}>
+                            <Button variant="secondary" onClick={handleLogout} className="book-btn">
                                 Logout
                             </Button>
                         </div>
@@ -99,12 +113,12 @@ function SignIn({ show, handleClose }) {
                             )}
                             <Row className="mb-3">
                                 <Col sm={6}>
-                                    <Button variant="primary" type="submit" className="btn-sign-in">
+                                    <Button variant="primary" type="submit" className="book-btn">
                                         Sign In
                                     </Button>
                                 </Col>
                                 <Col sm={6} className="text-end">
-                                    <Button variant="secondary" onClick={openSignupModal}>
+                                    <Button variant="secondary" onClick={openSignupModal} className="book-btn">
                                         Sign Up
                                     </Button>
                                 </Col>

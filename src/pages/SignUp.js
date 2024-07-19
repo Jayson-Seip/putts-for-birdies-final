@@ -16,6 +16,7 @@ const Signup = ({ show, handleClose }) => {
         setEmail('');
         setPassword('');
         setError('');
+        handleClose();
     }
 
     const handleSignup = async () => {

@@ -24,6 +24,7 @@ function TournamentSearch() {
     const [showBookingModal, setShowBookingModal] = useState(false)
     const [selectedTournament, setSelectedTournament] = useState(null);
     const [showSignupModal, setShowSignupModal] = useState(false);
+    const [isSignedIn, setIsSignedIn] = useState(false);
     const navigate = useNavigate();
 
 
@@ -84,8 +85,10 @@ function TournamentSearch() {
         }
         else {
             setShowSignupModal(true);
+            setIsSignedIn(false);
         }
     };
+    ;
 
     const closeBookingModal = () => {
         setShowBookingModal(false);
@@ -165,7 +168,6 @@ function TournamentSearch() {
                                             <p>Time: {item.time}</p>
                                             <p>Price: ${item.price}</p>
                                         </Container>
-                                        {console.log(item)}
                                         <Button className="book mb-3" onClick={() => openBookingModal(item)} >Book a Spot</Button>
                                     </div>
                                 </Col>
@@ -182,7 +184,7 @@ function TournamentSearch() {
                     <BookingTournamentPage onClose={closeBookingModal} tournament={selectedTournament} />
                 </Modal.Body>
             </Modal>
-            <SignIn show={showSignupModal} handleClose={handleCloseModal} />
+            <SignIn show={showSignupModal} handleClose={handleCloseModal} singedIn={isSignedIn} />
         </Container >
     );
 }
